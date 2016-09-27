@@ -1,0 +1,113 @@
+diff --git a/admin/themes/default/template/footer.tpl b/admin/themes/default/template/footer.tpl
+index ceecf3e..8c2220b 100644
+--- a/admin/themes/default/template/footer.tpl
++++ b/admin/themes/default/template/footer.tpl
+@@ -35,60 +35,8 @@
+ 	</div>
+ 
+ 	<div class="col-sm-2 hidden-xs">
+-		<div class="social-networks">
+-			<a class="link-social link-twitter _blank" href="https://twitter.com/PrestaShop" title="Twitter">
+-				<i class="icon-twitter"></i>
+-			</a>
+-			<a class="link-social link-facebook _blank" href="https://www.facebook.com/prestashop" title="Facebook">
+-				<i class="icon-facebook"></i>
+-			</a>
+-			<a class="link-social link-github _blank" href="https://www.prestashop.com/github" title="Github">
+-				<i class="icon-github"></i>
+-			</a>
+-			<a class="link-social link-google _blank" href="https://plus.google.com/+prestashop/" title="Google">
+-				<i class="icon-google-plus"></i>
+-			</a>
+-		</div>
+ 	</div>
+ 	<div class="col-sm-5">
+-		<div class="footer-contact">
+-			<a href="http://www.prestashop.com/en/contact_us?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
+-				<i class="icon-envelope"></i>
+-				{l s='Contact'}
+-			</a>
+-			/&nbsp;
+-			<a href="http://forge.prestashop.com/?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
+-				<i class="icon-bug"></i>
+-				{l s='Bug Tracker'}
+-			</a>
+-			/&nbsp;
+-			<a href="http://www.prestashop.com/forums/?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
+-				<i class="icon-comments"></i>
+-				{l s='Forum'}
+-			</a>
+-			/&nbsp;
+-			<a href="http://addons.prestashop.com/?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
+-				<i class="icon-puzzle-piece"></i>
+-				{l s='Addons'}
+-			</a>
+-			/&nbsp;
+-			<a href="http://www.prestashop.com/en/training-prestashop?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
+-				<i class="icon-book"></i>
+-				{l s='Training'}
+-			</a>
+-			{if $host_mode}
+-			/&nbsp;
+-			<a href="http://status.prestashop.com/" class="footer_link _blank">
+-				<i class="icon-circle status-page-dot"></i>
+-				<span class="status-page-description"></span>
+-			</a>
+-			{/if}
+-			{if $iso_is_fr && !$host_mode}
+-			<p>Questions • Renseignements • Formations :
+-				<strong>+33 (0)1.40.18.30.04</strong>
+-			</p>
+-			{/if}
+-		</div>
+ 	</div>
+ 
+ 	<div class="col-sm-3">
+diff --git a/admin/themes/default/template/header.tpl b/admin/themes/default/template/header.tpl
+index 6dff899..fd013ea 100644
+--- a/admin/themes/default/template/header.tpl
++++ b/admin/themes/default/template/header.tpl
+@@ -296,15 +296,6 @@
+ 				</script>
+ {/if}
+ 				<ul id="header_employee_box">
+-					{if (!isset($logged_on_addons) || !$logged_on_addons) && (isset($display_addons_connection) && $display_addons_connection)}
+-						<li class="hidden-sm hidden-xs">
+-							<a href="#" class="addons_connect toolbar_btn" data-toggle="modal" data-target="#modal_addons_connect" title="{l s='Connect to PrestaShop Marketplace account'}">
+-								<i class="icon-chain-broken"></i>
+-								<span class="string-long">{l s='Connect to PrestaShop Marketplace account'}</span>
+-								<span class="string-short">{l s='PrestaShop Marketplace'}</span>
+-							</a>
+-						</li>
+-					{/if}
+ {if {$base_url}}
+ 					<li>
+ 						<a href="{if isset($base_url_tc)}{$base_url_tc|escape:'html':'UTF-8'}{else}{$base_url|escape:'html':'UTF-8'}{/if}" id="header_foaccess" class="_blank" title="{l s='View my shop'}">
+@@ -322,27 +313,14 @@
+ {/if}
+ 					<li id="employee_infos" class="dropdown">
+ 						<a href="{$link->getAdminLink('AdminEmployees')|escape:'html':'UTF-8'}&amp;id_employee={$employee->id|intval}&amp;updateemployee" class="employee_name dropdown-toggle" data-toggle="dropdown">
+-							<span class="employee_avatar_small">
+-								{if isset($employee)}
+-								<img class="imgm img-thumbnail" alt="" src="{$employee->getImage()}" width="32" height="32" />
+-								{/if}
+-							</span>
+ 							<span class="string-long">{$employee->firstname}&nbsp;{$employee->lastname}</span>
+ 							<span class="string-short">{l s='Me'}</span>
+ 							<i class="caret"></i>
+ 						</a>
+ 						<ul id="employee_links" class="dropdown-menu">
+-							<li>
+-								<span class="employee_avatar">
+-									<img class="imgm img-thumbnail" alt="" src="{$employee->getImage()}" width="96" height="96" />
+-								</span>
+-							</li>
+ 							<li class="text-center text-nowrap">{$employee->firstname} {$employee->lastname}</li>
+ 							<li class="divider"></li>
+ 							<li><a href="{$link->getAdminLink('AdminEmployees')|escape:'html':'UTF-8'}&amp;id_employee={$employee->id|intval}&amp;updateemployee"><i class="icon-wrench"></i> {l s='My preferences'}</a></li>
+-							{if $host_mode}
+-							<li><a href="https://www.prestashop.com/cloud/" class="_blank"><i class="icon-wrench"></i> {l s='My PrestaShop account'}</a></li>
+-							{/if}
+ 							<li class="divider"></li>
+ 							<li><a id="header_logout" href="{$login_link|escape:'html':'UTF-8'}&amp;logout"><i class="icon-signout"></i> {l s='Sign out'}</a></li>
+ 						</ul>

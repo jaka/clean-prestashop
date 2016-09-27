@@ -1,0 +1,68 @@
+diff --git a/install/controllers/http/process.php b/install/controllers/http/process.php
+index e6fcbd5..6c84e63 100644
+--- a/install/controllers/http/process.php
++++ b/install/controllers/http/process.php
+@@ -91,16 +91,10 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+             $this->processPopulateDatabase();
+         } elseif (Tools::getValue('configureShop') && !empty($this->session->process_validated['populateDatabase'])) {
+             $this->processConfigureShop();
+-        } elseif (Tools::getValue('installFixtures') && !empty($this->session->process_validated['configureShop'])) {
+-            $this->processInstallFixtures();
+-        } elseif (Tools::getValue('installModules') && (!empty($this->session->process_validated['installFixtures']) || $this->session->install_type != 'full')) {
++        } elseif (Tools::getValue('installModules') && !empty($this->session->process_validated['configureShop'])) {
+             $this->processInstallModules();
+-        } elseif (Tools::getValue('installModulesAddons') && !empty($this->session->process_validated['installModules'])) {
+-            $this->processInstallAddonsModules();
+-        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModulesAddons'])) {
++        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModules'])) {
+             $this->processInstallTheme();
+-        } elseif (Tools::getValue('sendEmail') && !empty($this->session->process_validated['installTheme'])) {
+-            $this->processSendEmail();
+         } else {
+             // With no parameters, we consider that we are doing a new install, so session where the last process step
+             // was stored can be cleaned
+@@ -310,20 +304,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+         $this->process_steps[] = $populate_step;
+         $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->l('Configure shop information'));
+ 
+-        if ($this->session->install_type == 'full') {
+-            // If low memory, create subtasks for installFixtures step (entity per entity)
+-            $fixtures_step = array('key' => 'installFixtures', 'lang' => $this->l('Install demonstration data'));
+-            if ($low_memory) {
+-                $fixtures_step['subtasks'] = array();
+-                $xml_loader = new InstallXmlLoader();
+-                $xml_loader->setFixturesPath();
+-                foreach ($xml_loader->getSortedEntities() as $entity) {
+-                    $fixtures_step['subtasks'][] = array('entity' => $entity);
+-                }
+-            }
+-            $this->process_steps[] = $fixtures_step;
+-        }
+-
+         $install_modules = array('key' => 'installModules', 'lang' => $this->l('Install modules'));
+         if ($low_memory) {
+             foreach ($this->model_install->getModulesList() as $module) {
+@@ -331,23 +311,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+             }
+         }
+         $this->process_steps[] = $install_modules;
+-        
+-        $install_modules = array('key' => 'installModulesAddons', 'lang' => $this->l('Install Addons modules'));
+-
+-        $params = array(
+-            'iso_lang' => $this->language->getLanguageIso(),
+-            'iso_country' => $this->session->shop_country,
+-            'email' => $this->session->admin_email,
+-            'shop_url' => Tools::getHttpHost(),
+-            'version' => _PS_INSTALL_VERSION_
+-        );
+-
+-        if ($low_memory) {
+-            foreach ($this->model_install->getAddonsModulesList($params) as $module) {
+-                $install_modules['subtasks'][] = array('module' => (string)$module['name'], 'id_module' => (string)$module['id_module']);
+-            }
+-        }
+-        $this->process_steps[] = $install_modules;
+ 
+         $this->process_steps[] = array('key' => 'installTheme', 'lang' => $this->l('Install theme'));
+ 
