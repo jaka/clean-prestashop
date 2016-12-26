@@ -1,9 +1,9 @@
 diff --git a/install/controllers/http/process.php b/install/controllers/http/process.php
-index e6fcbd5..6c84e63 100644
+index db13ed3..888b14f 100644
 --- a/install/controllers/http/process.php
 +++ b/install/controllers/http/process.php
-@@ -91,16 +91,10 @@ class InstallControllerHttpProcess extends InstallControllerHttp
-             $this->processPopulateDatabase();
+@@ -95,13 +95,9 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+             Language::downloadAndInstallLanguagePack($this->session->lang);
          } elseif (Tools::getValue('configureShop') && !empty($this->session->process_validated['populateDatabase'])) {
              $this->processConfigureShop();
 -        } elseif (Tools::getValue('installFixtures') && !empty($this->session->process_validated['configureShop'])) {
@@ -16,22 +16,21 @@ index e6fcbd5..6c84e63 100644
 -        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModulesAddons'])) {
 +        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModules'])) {
              $this->processInstallTheme();
--        } elseif (Tools::getValue('sendEmail') && !empty($this->session->process_validated['installTheme'])) {
--            $this->processSendEmail();
          } else {
              // With no parameters, we consider that we are doing a new install, so session where the last process step
-             // was stored can be cleaned
-@@ -310,20 +304,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+@@ -334,22 +330,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
          $this->process_steps[] = $populate_step;
-         $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->l('Configure shop information'));
+         $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->translator->trans('Configure shop information', array(), 'Install'));
  
 -        if ($this->session->install_type == 'full') {
 -            // If low memory, create subtasks for installFixtures step (entity per entity)
--            $fixtures_step = array('key' => 'installFixtures', 'lang' => $this->l('Install demonstration data'));
+-            $fixtures_step = array('key' => 'installFixtures', 'lang' => $this->translator->trans('Install demonstration data', array(), 'Install'));
 -            if ($low_memory) {
 -                $fixtures_step['subtasks'] = array();
--                $xml_loader = new InstallXmlLoader();
+-                $xml_loader = new XmlLoader();
+-                $xml_loader->setTranslator($this->translator);
 -                $xml_loader->setFixturesPath();
+-
 -                foreach ($xml_loader->getSortedEntities() as $entity) {
 -                    $fixtures_step['subtasks'][] = array('entity' => $entity);
 -                }
@@ -39,15 +38,14 @@ index e6fcbd5..6c84e63 100644
 -            $this->process_steps[] = $fixtures_step;
 -        }
 -
-         $install_modules = array('key' => 'installModules', 'lang' => $this->l('Install modules'));
+         $install_modules = array('key' => 'installModules', 'lang' => $this->translator->trans('Install modules', array(), 'Install'));
          if ($low_memory) {
              foreach ($this->model_install->getModulesList() as $module) {
-@@ -331,23 +311,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
-             }
+@@ -358,23 +338,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
          }
          $this->process_steps[] = $install_modules;
--        
--        $install_modules = array('key' => 'installModulesAddons', 'lang' => $this->l('Install Addons modules'));
+ 
+-        $install_modules = array('key' => 'installModulesAddons', 'lang' => $this->translator->trans('Install Addons modules', array(), 'Install'));
 -
 -        $params = array(
 -            'iso_lang' => $this->language->getLanguageIso(),
@@ -63,6 +61,7 @@ index e6fcbd5..6c84e63 100644
 -            }
 -        }
 -        $this->process_steps[] = $install_modules;
+-
+         $this->process_steps[] = array('key' => 'installTheme', 'lang' => $this->translator->trans('Install theme', array(), 'Install'));
  
-         $this->process_steps[] = array('key' => 'installTheme', 'lang' => $this->l('Install theme'));
- 
+         $this->displayTemplate('process');

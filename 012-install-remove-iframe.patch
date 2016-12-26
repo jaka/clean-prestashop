@@ -1,14 +1,14 @@
-diff --git a/install/theme/views/process.phtml b/install/theme/views/process.phtml
-index 8d5eb23..6599363 100644
---- a/install/theme/views/process.phtml
-+++ b/install/theme/views/process.phtml
-@@ -101,10 +101,4 @@ var admin = '<?php echo(file_exists('../admin-dev') ? '../admin-dev' : '../admin
+diff --git a/install/theme/views/process.php b/install/theme/views/process.php
+index d2d4c4c..1c2bdb7 100644
+--- a/install/theme/views/process.php
++++ b/install/theme/views/process.php
+@@ -125,10 +125,4 @@ var admin = '<?php echo(file_exists('../admin-dev') ? '../admin-dev' : '../admin
  	</div>
  </div>
  
 -<?php if (@fsockopen('addons.prestashop.com', 80, $errno, $errst, 3)): ?>
 -	<iframe src="https://addons.prestashop.com/psinstall1541.php?version=2&lang=<?php echo $this->language->getLanguageIso() ?>&activity=<?php echo $this->session->shop_activity ?>&country=<?php echo $this->session->shop_country ?>" scrolling="no" id="prestastore">
--		<p><a href="http://addons.prestashop.com/" target="_blank"><?php echo $this->l('Check out PrestaShop Addons to add that little something extra to your store!'); ?></a></p>
+-		<p><a href="http://addons.prestashop.com/" target="_blank"><?php echo $this->translator->trans('Check out PrestaShop Addons to add that little something extra to your store!', array(), 'Install'); ?></a></p>
 -	</iframe>
 -<?php endif; ?>
 -

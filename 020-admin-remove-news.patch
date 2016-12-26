@@ -1,5 +1,5 @@
 diff --git a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
-index e6b3d32..85707e2 100644
+index 5e13418..e7c9c73 100644
 --- a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
 +++ b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
 @@ -87,46 +87,8 @@
@@ -51,10 +51,10 @@ index e6b3d32..85707e2 100644
  	</div>
  </div>
 diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index 62a6aea..79c3be8 100644
+index 32bf73c..e89e2f8 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
-@@ -377,67 +377,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -437,67 +437,6 @@ class AdminDashboardControllerCore extends AdminController
          die('k'.Configuration::get('PS_DASHBOARD_SIMULATION').'k');
      }
  
@@ -116,17 +116,17 @@ index 62a6aea..79c3be8 100644
 -                }
 -            }
 -        }
--        die(Tools::jsonEncode($return));
+-        die(json_encode($return));
 -    }
 -
      public function ajaxProcessSaveDashConfig()
      {
          $return = array('has_errors' => false, 'errors' => array());
 diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index b4328aa..11e6abd 100644
+index 0ca0e6d..ff0de5f 100644
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -189,28 +189,6 @@ function data_list_small(widget_name, data) {
+@@ -190,28 +190,6 @@ function data_list_small(widget_name, data) {
  	}
  }
  
@@ -155,7 +155,7 @@ index b4328aa..11e6abd 100644
  function toggleDashConfig(widget) {
  	var func_name = widget + '_toggleDashConfig';
  	if ($('#'+widget+' section.dash_config').hasClass('hide'))
-@@ -299,7 +277,6 @@ $(document).ready( function () {
+@@ -300,7 +278,6 @@ $(document).ready( function () {
  	});
  
  	refreshDashboard(false, false);

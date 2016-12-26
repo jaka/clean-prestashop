@@ -1,21 +1,21 @@
 diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index 62a6aea..8b3e1e6 100644
+index e89e2f8..c912f57 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
-@@ -54,11 +54,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -56,11 +56,6 @@ class AdminDashboardControllerCore extends AdminController
      public function initPageHeaderToolbar()
      {
-         $this->page_header_toolbar_title = $this->l('Dashboard');
+         $this->page_header_toolbar_title = $this->trans('Dashboard', array(), 'Admin.Dashboard.Feature');
 -        $this->page_header_toolbar_btn['switch_demo'] = array(
--            'desc' => $this->l('Demo mode', null, null, false),
+-            'desc' => $this->trans('Demo mode', array(), 'Admin.Dashboard.Feature'),
 -            'icon' => 'process-icon-toggle-'.(Configuration::get('PS_DASHBOARD_SIMULATION') ? 'on' : 'off'),
--            'help' => $this->l('This mode displays sample data so you can try your dashboard without real numbers.', null, null, false)
+-            'help' => $this->trans('This mode displays sample data so you can try your dashboard without real numbers.', array(), 'Admin.Dashboard.Help')
 -        );
  
          parent::initPageHeaderToolbar();
  
-@@ -371,12 +366,6 @@ class AdminDashboardControllerCore extends AdminController
-         die(Tools::jsonEncode(Hook::exec('dashboardData', $params, $id_module, true, true, (int)Tools::getValue('dashboard_use_push'))));
+@@ -431,12 +426,6 @@ class AdminDashboardControllerCore extends AdminController
+         die(json_encode(Hook::exec('dashboardData', $params, $id_module, true, true, (int)Tools::getValue('dashboard_use_push'))));
      }
  
 -    public function ajaxProcessSetSimulationMode()
@@ -28,14 +28,13 @@ index 62a6aea..8b3e1e6 100644
      {
          $return = array('has_errors' => false, 'errors' => array());
 diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index b4328aa..0eca8e4 100644
+index ff0de5f..2527f45 100644
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -279,23 +279,4 @@ $(document).ready( function () {
- 	refreshDashboard(false, false);
+@@ -281,22 +281,4 @@ $(document).ready( function () {
  	bindSubmitDashConfig();
  	bindCancelDashConfig();
--
+ 
 -	$('#page-header-desc-configuration-switch_demo').tooltip().click(function(e) {
 -		$.ajax({
 -			url : dashboard_ajax_url,
@@ -56,7 +55,7 @@ index b4328aa..0eca8e4 100644
 -	});
  });
 diff --git a/modules/dashactivity/dashactivity.php b/modules/dashactivity/dashactivity.php
-index f42aba2..cae3c26 100644
+index d3fd55b..0cce405 100644
 --- a/modules/dashactivity/dashactivity.php
 +++ b/modules/dashactivity/dashactivity.php
 @@ -111,51 +111,6 @@ class Dashactivity extends Module
