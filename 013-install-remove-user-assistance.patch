@@ -1,0 +1,12 @@
+diff --git a/install/theme/views/header.phtml b/install/theme/views/header.phtml
+index 2d14e70..67b2ca8 100644
+--- a/install/theme/views/header.phtml
++++ b/install/theme/views/header.phtml
+@@ -16,7 +16,6 @@
+ 	<script type="text/javascript" src="../js/jquery/jquery-1.11.0.min.js"></script>
+ 	<script type="text/javascript" src="../js/jquery/plugins/jquery.chosen.js"></script>
+ 	<script type="text/javascript" src="theme/js/install.js"></script>
+-	<script type="text/javascript" src="//www.prestashop.com/js/user-assistance.js"></script>
+ 	<?php if (file_exists(_PS_INSTALL_PATH_.'theme/js/'.$this->step.'.js')): ?>
+ 		<script type="text/javascript" src="theme/js/<?php echo $this->step ?>.js"></script>
+ 	<?php endif; ?>
