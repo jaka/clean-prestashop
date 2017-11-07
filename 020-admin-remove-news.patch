@@ -54,7 +54,7 @@ diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/
 index 62a6aea..79c3be8 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
-@@ -377,67 +377,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -378,67 +378,6 @@ class AdminDashboardControllerCore extends AdminController
          die('k'.Configuration::get('PS_DASHBOARD_SIMULATION').'k');
      }
  

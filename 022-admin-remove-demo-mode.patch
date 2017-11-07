@@ -14,7 +14,7 @@ index 62a6aea..8b3e1e6 100644
  
          parent::initPageHeaderToolbar();
  
-@@ -371,12 +366,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -372,12 +367,6 @@ class AdminDashboardControllerCore extends AdminController
          die(Tools::jsonEncode(Hook::exec('dashboardData', $params, $id_module, true, true, (int)Tools::getValue('dashboard_use_push'))));
      }
  
