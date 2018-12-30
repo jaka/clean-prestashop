@@ -1,0 +1,13 @@
+diff --git a/install/upgrade/sql/1.1.0.1.sql b/install/upgrade/sql/1.1.0.1.sql
+index 344b69f..1efd6ba 100644
+--- a/install/upgrade/sql/1.1.0.1.sql
++++ b/install/upgrade/sql/1.1.0.1.sql
+@@ -269,7 +269,7 @@ INSERT INTO `PREFIX_meta_lang` (`id_meta`, `id_lang`, `title`, `description`, `k
+ (2, 2, 'Meilleurs ventes', 'Liste de nos produits les mieux vendus', 'meilleurs ventes'),
+ (3, 1, 'Contact us', 'Use our form to contact us', 'contact, form, e-mail'),
+ (3, 2, 'Contactez-nous', 'Utilisez notre formulaire pour nous contacter', 'contact, formulaire, e-mail'),
+-(4, 1, '', 'Shop powered by PrestaShop', 'shop, prestashop'),
++(4, 1, '', 'Welcome to our webstore', 'shop, prestashop'),
+ (4, 2, '', 'Boutique propulsé par PrestaShop', 'boutique, prestashop'),
+ (5, 1, 'Manufacturers', 'Manufacturers list', 'manufacturer'),
+ (5, 2, 'Fabricants', 'Liste de nos fabricants', 'fabricants'),

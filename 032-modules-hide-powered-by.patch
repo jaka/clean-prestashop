@@ -1,0 +1,13 @@
+diff --git a/modules/blockcms/blockcms.php b/modules/blockcms/blockcms.php
+index 3dbc3b7..c3c132a 100644
+--- a/modules/blockcms/blockcms.php
++++ b/modules/blockcms/blockcms.php
+@@ -66,7 +66,7 @@ class BlockCms extends Module
+ 			|| !BlockCMSModel::createTables()
+ 			|| !Configuration::updateValue('FOOTER_CMS', '')
+ 			|| !Configuration::updateValue('FOOTER_BLOCK_ACTIVATION', 1)
+-			|| !Configuration::updateValue('FOOTER_POWEREDBY', 1)
++			|| !Configuration::updateValue('FOOTER_POWEREDBY', 0)
+ 			|| !Configuration::updateValue('FOOTER_PRICE-DROP', 1)
+ 			|| !Configuration::updateValue('FOOTER_NEW-PRODUCTS', 1)
+ 			|| !Configuration::updateValue('FOOTER_BEST-SALES', 1)
