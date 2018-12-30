@@ -1,0 +1,27 @@
+diff --git a/install/data/xml/tab.xml b/install/data/xml/tab.xml
+index 48162a8..86c9002 100644
+--- a/install/data/xml/tab.xml
++++ b/install/data/xml/tab.xml
+@@ -186,9 +186,6 @@
+     <tab id="Modules_1" id_parent="Modules" active="1" hide_host_mode="0">
+       <class_name>AdminModules</class_name>
+     </tab>
+-    <tab id="Modules_Themes_Catalog" id_parent="Modules" active="1" hide_host_mode="0">
+-      <class_name>AdminAddonsCatalog</class_name>
+-    </tab>
+     <tab id="Positions" id_parent="Modules" active="1" hide_host_mode="0">
+       <class_name>AdminModulesPositions</class_name>
+     </tab>
+diff --git a/install/upgrade/php/clean_tabs_15.php b/install/upgrade/php/clean_tabs_15.php
+index 999847f..faff61d 100644
+--- a/install/upgrade/php/clean_tabs_15.php
++++ b/install/upgrade/php/clean_tabs_15.php
+@@ -158,8 +158,6 @@ function clean_tabs_15()
+         'children' => array(
+             61 => array('class_name' => 'AdminModules', 'position' => 0, 'active' => 1,
+             ),
+-            62 => array('class_name' => 'AdminAddonsCatalog', 'position' => 1, 'active' => 1,
+-            ),
+             63 => array('class_name' => 'AdminModulesPositions', 'position' => 2, 'active' => 1,
+             ),
+             64 => array('class_name' => 'AdminPayment', 'position' => 3, 'active' => 1,

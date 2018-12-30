@@ -1,0 +1,55 @@
+diff --git a/admin1/themes/default/template/controllers/search/helpers/view/view.tpl b/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
+index f7631d2..e8ff723 100644
+--- a/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
++++ b/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
+@@ -175,26 +175,6 @@ $(function() {
+ 	{/if}
+ 
+ {/if}
+-<div class="row">
+-	<div class="col-lg-4">
+-		<div class="panel">
+-			<h3>{l s='Search doc.prestashop.com'}</h3>
+-			<a href="http://doc.prestashop.com/dosearchsite.action?spaceSearch=true&amp;queryString={$query}&amp;utm_source=back-office&amp;utm_medium=search&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="btn btn-default _blank">{l s='Go to the documentation'}</a>
+-		</div>
+-	</div>
+-	<div class="col-lg-4">
+-		<div class="panel">
+-			<h3>{l s='Search addons.prestashop.com'}</h3>
+-			<a href="http://addons.prestashop.com/search.php?search_query={$query}&amp;utm_source=back-office&amp;utm_medium=search&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="btn btn-default _blank">{l s='Go to Addons'}</a>
+-		</div>
+-	</div>
+-	<div class="col-lg-4">
+-		<div class="panel">
+-			<h3>{l s='Search prestashop.com forum'}</h3>
+-			<a href="https://www.google.fr/search?q=site%3Aprestashop.com%2Fforums%2F+{$query}" class="btn btn-default _blank">{l s='Go to the Forum'}</a>
+-		</div>
+-	</div>
+-</div>
+ 
+ 
+ 
+diff --git a/controllers/admin/AdminSearchController.php b/controllers/admin/AdminSearchController.php
+index af5b89e..ceb5bee 100644
+--- a/controllers/admin/AdminSearchController.php
++++ b/controllers/admin/AdminSearchController.php
+@@ -186,19 +186,6 @@ class AdminSearchControllerCore extends AdminController
+                 $this->_list['modules'][] = $module;
+             }
+         }
+-
+-        if (!is_numeric(trim($this->query)) && !Validate::isEmail($this->query)) {
+-            $iso_lang = Tools::strtolower(Context::getContext()->language->iso_code);
+-            $iso_country = Tools::strtolower(Country::getIsoById(Configuration::get('PS_COUNTRY_DEFAULT')));
+-            if (($json_content = Tools::file_get_contents('https://api-addons.prestashop.com/'._PS_VERSION_.'/search/'.urlencode($this->query).'/'.$iso_country.'/'.$iso_lang.'/')) != false) {
+-                $results = Tools::jsonDecode($json_content, true);
+-                if (isset($results['id'])) {
+-                    $this->_list['addons']  = array($results);
+-                } else {
+-                    $this->_list['addons']  =  $results;
+-                }
+-            }
+-        }
+     }
+ 
+     /**

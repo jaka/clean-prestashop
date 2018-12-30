@@ -1,0 +1,54 @@
+diff --git a/modules/blockbanner/blockbanner.php b/modules/blockbanner/blockbanner.php
+index 3a732ca..acb8e59 100644
+--- a/modules/blockbanner/blockbanner.php
++++ b/modules/blockbanner/blockbanner.php
+@@ -52,7 +52,7 @@ class BlockBanner extends Module
+ 			$this->registerHook('displayBanner') &&
+ 			$this->registerHook('displayHeader') &&
+ 			$this->registerHook('actionObjectLanguageAddAfter') &&
+-			$this->installFixtures() &&
++			//$this->installFixtures() &&
+ 			$this->disableDevice(Context::DEVICE_MOBILE);
+ 	}
+ 
+diff --git a/modules/homeslider/homeslider.php b/modules/homeslider/homeslider.php
+index 6714aaf..a9dfc32 100644
+--- a/modules/homeslider/homeslider.php
++++ b/modules/homeslider/homeslider.php
+@@ -110,8 +110,10 @@ class HomeSlider extends Module
+ 			$res &= $this->createTables();
+ 
+ 			/* Adds samples */
++			/*
+ 			if ($res)
+ 				$this->installSamples();
++			*/
+ 
+ 			// Disable on mobiles and tablets
+ 			$this->disableDevice(Context::DEVICE_MOBILE);
+diff --git a/modules/themeconfigurator/themeconfigurator.php b/modules/themeconfigurator/themeconfigurator.php
+index bbc7be5..d9f15b2 100644
+--- a/modules/themeconfigurator/themeconfigurator.php
++++ b/modules/themeconfigurator/themeconfigurator.php
+@@ -103,9 +103,9 @@ class ThemeConfigurator extends Module
+ 			'font10' => 'Droid Sans'
+ 		);
+ 
+-		if (!parent::install()
+-			|| !$this->installDB()
+-			|| !$this->installFixtures(Language::getLanguages(true)) ||
++		if (!parent::install() ||
++			!$this->installDB() ||
++			//!$this->installFixtures(Language::getLanguages(true)) ||
+ 			!$this->registerHook('displayHeader') ||
+ 			!$this->registerHook('displayTopColumn') ||
+ 			!$this->registerHook('displayLeftColumn') ||
+@@ -113,7 +113,7 @@ class ThemeConfigurator extends Module
+ 			!$this->registerHook('displayHome') ||
+ 			!$this->registerHook('displayFooter') ||
+ 			!$this->registerHook('displayBackOfficeHeader') ||
+-			!$this->registerHook('actionObjectLanguageAddAfter') ||
++			//!$this->registerHook('actionObjectLanguageAddAfter') ||
+ 			!Configuration::updateValue('PS_TC_THEMES', serialize($themes_colors)) ||
+ 			!Configuration::updateValue('PS_TC_FONTS', serialize($themes_fonts)) ||
+ 			!Configuration::updateValue('PS_TC_THEME', '') ||
