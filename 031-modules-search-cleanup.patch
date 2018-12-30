@@ -1,7 +1,7 @@
-diff --git a/admin1/themes/default/template/controllers/search/helpers/view/view.tpl b/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
+diff --git a/admin/themes/default/template/controllers/search/helpers/view/view.tpl b/admin/themes/default/template/controllers/search/helpers/view/view.tpl
 index f7631d2..e8ff723 100644
---- a/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
-+++ b/admin1/themes/default/template/controllers/search/helpers/view/view.tpl
+--- a/admin/themes/default/template/controllers/search/helpers/view/view.tpl
++++ b/admin/themes/default/template/controllers/search/helpers/view/view.tpl
 @@ -175,26 +175,6 @@ $(function() {
  	{/if}
  
