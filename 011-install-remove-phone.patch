@@ -24,3 +24,10 @@ index 0bf2565..0cb1c6e 100644
  		</iframe>
  	<?php endif; ?>
  </div>
+@@ -108,4 +100,4 @@
+ 				<img src="theme/img/help.png" style="height:16px;width:16px" />
+ 			</a>
+ 		</h4>
+-	</noscript>
+\ No newline at end of file
++	</noscript>
