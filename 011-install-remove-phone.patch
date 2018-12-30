@@ -1,38 +1,5 @@
-diff --git a/install/classes/controllerHttp.php b/install/classes/controllerHttp.php
-index 5080108..bae26c7 100644
---- a/install/classes/controllerHttp.php
-+++ b/install/classes/controllerHttp.php
-@@ -315,28 +315,6 @@ abstract class InstallControllerHttp
-     }
- 
-     /**
--     * Get telephone used for this language
--     *
--     * @return string
--     */
--    public function getPhone()
--    {
--        if (InstallSession::getInstance()->support_phone != null) {
--            return InstallSession::getInstance()->support_phone;
--        }
--        if ($this->phone === null) {
--            $this->phone = $this->language->getInformation('phone', false);
--            if ($iframe = Tools::file_get_contents('http://api.prestashop.com/iframe/install.php?lang='.$this->language->getLanguageIso(), false, null, 3)) {
--                if (preg_match('/<img.+alt="([^"]+)".*>/Ui', $iframe, $matches) && isset($matches[1])) {
--                    $this->phone = $matches[1];
--                }
--            }
--        }
--        InstallSession::getInstance()->support_phone = $this->phone;
--        return $this->phone;
--    }
--
--    /**
-      * Get link to documentation for this language
-      *
-      * Enter description here ...
 diff --git a/install/theme/views/header.phtml b/install/theme/views/header.phtml
-index 0bf2565..2d14e70 100644
+index 0bf2565..0cb1c6e 100644
 --- a/install/theme/views/header.phtml
 +++ b/install/theme/views/header.phtml
 @@ -35,13 +35,6 @@
@@ -49,23 +16,11 @@ index 0bf2565..2d14e70 100644
  	</ul>
  
  	<div id="PrestaShopLogo">PrestaShop</div>
-@@ -81,12 +74,6 @@
- 			<?php endif; ?>
- 		<?php endforeach; ?>
- 	</ol>
--	<?php if (@fsockopen('api.prestashop.com', 80, $errno, $errst, 3)): ?>
--		<iframe scrolling="no" style="height:210px;width:200px;border:none;margin-top:20px" id="iframe_help"
--			src="https://api.prestashop.com/iframe/install.php?step=<?php echo $this->step ?>&lang=<?php echo $this->language->getLanguageIso() ?><?php if (isset($this->session->shop_country)) echo '&country='.$this->session->shop_country; ?>">
+@@ -84,7 +77,6 @@
+ 	<?php if (@fsockopen('api.prestashop.com', 80, $errno, $errst, 3)): ?>
+ 		<iframe scrolling="no" style="height:210px;width:200px;border:none;margin-top:20px" id="iframe_help"
+ 			src="https://api.prestashop.com/iframe/install.php?step=<?php echo $this->step ?>&lang=<?php echo $this->language->getLanguageIso() ?><?php if (isset($this->session->shop_country)) echo '&country='.$this->session->shop_country; ?>">
 -			<p><?php echo $this->l('Contact us!') ?><br /><?php echo $this->getPhone() ?></p>
--		</iframe>
--	<?php endif; ?>
+ 		</iframe>
+ 	<?php endif; ?>
  </div>
- 
- <!-- Page content -->
-@@ -108,4 +95,4 @@
- 				<img src="theme/img/help.png" style="height:16px;width:16px" />
- 			</a>
- 		</h4>
--	</noscript>
-\ No newline at end of file
-+	</noscript>

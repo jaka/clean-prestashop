@@ -1,8 +1,59 @@
+diff --git a/install/classes/datas.php b/install/classes/datas.php
+index e48f8b8..c937aa6 100644
+--- a/install/classes/datas.php
++++ b/install/classes/datas.php
+@@ -153,7 +153,7 @@ class Datas
+         ),
+         'send_email' => array(
+             'name' => 'send_email',
+-            'default' => 1,
++            'default' => 0,
+             'help' => 'send an email to the administrator after installation',
+         ),
+     );
+diff --git a/install/controllers/console/process.php b/install/controllers/console/process.php
+index 1373540..56bf648 100644
+--- a/install/controllers/console/process.php
++++ b/install/controllers/console/process.php
+@@ -95,7 +95,7 @@ class InstallControllerConsoleProcess extends InstallControllerConsole
+     {
+         $steps = explode(',', $this->datas->step);
+         if (in_array('all', $steps)) {
+-            $steps = array('database','fixtures','theme','modules','addons_modules');
++            $steps = array('database','theme','modules');
+         }
+ 
+         if (in_array('database', $steps)) {
+@@ -124,24 +124,12 @@ class InstallControllerConsoleProcess extends InstallControllerConsole
+             }
+         }
+ 
+-        if (in_array('fixtures', $steps)) {
+-            if (!$this->processInstallFixtures()) {
+-                $this->printErrors();
+-            }
+-        }
+-
+         if (in_array('modules', $steps)) {
+             if (!$this->processInstallModules()) {
+                 $this->printErrors();
+             }
+         }
+ 
+-        if (in_array('addons_modules', $steps)) {
+-            if (!$this->processInstallAddonsModules()) {
+-                $this->printErrors();
+-            }
+-        }
+-
+         if (in_array('theme', $steps)) {
+             if (!$this->processInstallTheme()) {
+                 $this->printErrors();
 diff --git a/install/controllers/http/process.php b/install/controllers/http/process.php
-index e6fcbd5..6c84e63 100644
+index f316334..112bd11 100644
 --- a/install/controllers/http/process.php
 +++ b/install/controllers/http/process.php
-@@ -91,16 +91,10 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+@@ -91,13 +91,9 @@ class InstallControllerHttpProcess extends InstallControllerHttp
              $this->processPopulateDatabase();
          } elseif (Tools::getValue('configureShop') && !empty($this->session->process_validated['populateDatabase'])) {
              $this->processConfigureShop();
@@ -16,12 +67,9 @@ index e6fcbd5..6c84e63 100644
 -        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModulesAddons'])) {
 +        } elseif (Tools::getValue('installTheme') && !empty($this->session->process_validated['installModules'])) {
              $this->processInstallTheme();
--        } elseif (Tools::getValue('sendEmail') && !empty($this->session->process_validated['installTheme'])) {
--            $this->processSendEmail();
-         } else {
-             // With no parameters, we consider that we are doing a new install, so session where the last process step
-             // was stored can be cleaned
-@@ -310,20 +304,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+         } elseif (Tools::getValue('sendEmail') && !empty($this->session->process_validated['installTheme'])) {
+             $this->processSendEmail();
+@@ -310,20 +306,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
          $this->process_steps[] = $populate_step;
          $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->l('Configure shop information'));
  
@@ -42,7 +90,7 @@ index e6fcbd5..6c84e63 100644
          $install_modules = array('key' => 'installModules', 'lang' => $this->l('Install modules'));
          if ($low_memory) {
              foreach ($this->model_install->getModulesList() as $module) {
-@@ -331,23 +311,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
+@@ -331,23 +313,6 @@ class InstallControllerHttpProcess extends InstallControllerHttp
              }
          }
          $this->process_steps[] = $install_modules;

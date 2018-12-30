@@ -1,8 +1,21 @@
+diff --git a/install/classes/datas.php b/install/classes/datas.php
+index c937aa6..e342f40 100644
+--- a/install/classes/datas.php
++++ b/install/classes/datas.php
+@@ -148,7 +148,7 @@ class Datas
+         ),
+         'newsletter' => array(
+             'name' => 'newsletter',
+-            'default' => 1,
++            'default' => 0,
+             'help' => 'get news from PrestaShop',
+         ),
+         'send_email' => array(
 diff --git a/install/controllers/console/process.php b/install/controllers/console/process.php
-index 863c40b..ca021c6 100644
+index 56bf648..6284ba5 100644
 --- a/install/controllers/console/process.php
 +++ b/install/controllers/console/process.php
-@@ -245,7 +245,7 @@ class InstallControllerConsoleProcess extends InstallControllerConsole
+@@ -233,7 +233,7 @@ class InstallControllerConsoleProcess extends InstallControllerConsole
              'admin_password' =>            $this->datas->admin_password,
              'admin_email' =>            $this->datas->admin_email,
              'configuration_agrement' =>    true,
@@ -12,36 +25,15 @@ index 863c40b..ca021c6 100644
      }
  
 diff --git a/install/controllers/http/configure.php b/install/controllers/http/configure.php
-index e318a37..1f7d370 100644
+index 4707871..9448743 100644
 --- a/install/controllers/http/configure.php
 +++ b/install/controllers/http/configure.php
-@@ -49,16 +49,6 @@ class InstallControllerHttpConfigure extends InstallControllerHttp
+@@ -48,7 +48,7 @@ class InstallControllerHttpConfigure extends InstallControllerHttp
+             $this->session->admin_firstname = trim(Tools::getValue('admin_firstname'));
              $this->session->admin_lastname = trim(Tools::getValue('admin_lastname'));
              $this->session->admin_email = trim(Tools::getValue('admin_email'));
-             $this->session->send_informations = Tools::getValue('send_informations');
--            if ($this->session->send_informations) {
--                $params = http_build_query(array(
--                    'email' => $this->session->admin_email,
--                    'method' => 'addMemberToNewsletter',
--                    'language' => $this->language->getLanguageIso(),
--                    'visitorType' => 1,
--                    'source' => 'installer'
--                ));
--                Tools::file_get_contents('http://www.prestashop.com/ajax/controller.php?'.$params);
--            }
- 
-             // If password fields are empty, but are already stored in session, do not fill them again
-             if (!$this->session->admin_password || trim(Tools::getValue('admin_password'))) {
-diff --git a/install/controllers/http/process.php b/install/controllers/http/process.php
-index 6c84e63..1c267aa 100644
---- a/install/controllers/http/process.php
-+++ b/install/controllers/http/process.php
-@@ -196,7 +196,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp
-             'admin_lastname' =>            $this->session->admin_lastname,
-             'admin_password' =>            $this->session->admin_password,
-             'admin_email' =>            $this->session->admin_email,
--            'send_informations' =>        $this->session->send_informations,
-+            'send_informations' =>        false,
-             'configuration_agrement' =>    $this->session->configuration_agrement,
-             'rewrite_engine' =>            $this->session->rewrite_engine,
-         ));
+-            $this->session->send_informations = Tools::getValue('send_informations');
++            $this->session->send_informations = false;
+             if ($this->session->send_informations) {
+                 $params = http_build_query(array(
+                     'email' => $this->session->admin_email,
