@@ -1,0 +1,122 @@
+diff --git a/install/data/theme.sql b/install/data/theme.sql
+index 927d028..7c93e3e 100644
+--- a/install/data/theme.sql
++++ b/install/data/theme.sql
+@@ -46,21 +46,21 @@ UPDATE `PREFIX_configuration` SET value = '10' WHERE name = 'BLOCKTAGS_NBR';
+ UPDATE `PREFIX_configuration` SET value = '0_3|0_4' WHERE name = 'FOOTER_CMS';
+ UPDATE `PREFIX_configuration` SET value = '0_3|0_4' WHERE name = 'FOOTER_BLOCK_ACTIVATION';
+ UPDATE `PREFIX_configuration` SET value = '0' WHERE name = 'FOOTER_POWEREDBY';
+-UPDATE `PREFIX_configuration` SET value = 'http://www.prestashop.com' WHERE name = 'BLOCKADVERT_LINK';
++UPDATE `PREFIX_configuration` SET value = 'http://localhost' WHERE name = 'BLOCKADVERT_LINK';
+ UPDATE `PREFIX_configuration` SET value = 'store.jpg' WHERE name = 'BLOCKSTORE_IMG';
+ UPDATE `PREFIX_configuration` SET value = 'jpg' WHERE name = 'BLOCKADVERT_IMG_EXT';
+ UPDATE `PREFIX_configuration` SET value = 'CAT3,CAT8,CAT5,LNK1' WHERE name = 'MOD_BLOCKTOPMENU_ITEMS';
+ UPDATE `PREFIX_configuration` SET value = '0' WHERE name = 'MOD_BLOCKTOPMENU_SEARCH';
+-UPDATE `PREFIX_configuration` SET value = 'http://www.facebook.com/prestashop' WHERE name = 'BLOCKSOCIAL_FACEBOOK';
+-UPDATE `PREFIX_configuration` SET value = 'http://www.twitter.com/prestashop' WHERE name = 'BLOCKSOCIAL_TWITTER';
+-UPDATE `PREFIX_configuration` SET value = 'http://www.prestashop.com/blog/en/' WHERE name = 'BLOCKSOCIAL_RSS';
+-UPDATE `PREFIX_configuration` SET value = 'https://www.google.com/+prestashop' WHERE name = 'BLOCKSOCIAL_GOOGLE_PLUS';
++UPDATE `PREFIX_configuration` SET value = 'http://www.facebook.com/' WHERE name = 'BLOCKSOCIAL_FACEBOOK';
++UPDATE `PREFIX_configuration` SET value = 'http://www.twitter.com/' WHERE name = 'BLOCKSOCIAL_TWITTER';
++UPDATE `PREFIX_configuration` SET value = 'http://localhost/blog/' WHERE name = 'BLOCKSOCIAL_RSS';
++UPDATE `PREFIX_configuration` SET value = 'https://www.google.com/+localhost' WHERE name = 'BLOCKSOCIAL_GOOGLE_PLUS';
+ UPDATE `PREFIX_configuration` SET value = 'My Company' WHERE name = 'BLOCKCONTACTINFOS_COMPANY';
+-UPDATE `PREFIX_configuration` SET value = '42 Puffin street\n12345 Puffinville\nFrance' WHERE name = 'BLOCKCONTACTINFOS_ADDRESS';
++UPDATE `PREFIX_configuration` SET value = '42 Localhost\n12345 Nowhere\nCountry' WHERE name = 'BLOCKCONTACTINFOS_ADDRESS';
+ UPDATE `PREFIX_configuration` SET value = '0123-456-789' WHERE name = 'BLOCKCONTACTINFOS_PHONE';
+-UPDATE `PREFIX_configuration` SET value = 'sales@yourcompany.com' WHERE name = 'BLOCKCONTACTINFOS_EMAIL';
++UPDATE `PREFIX_configuration` SET value = 'sales@localhost' WHERE name = 'BLOCKCONTACTINFOS_EMAIL';
+ UPDATE `PREFIX_configuration` SET value = '0123-456-789' WHERE name = 'BLOCKCONTACT_TELNUMBER';
+-UPDATE `PREFIX_configuration` SET value = 'sales@yourcompany.com' WHERE name = 'BLOCKCONTACT_EMAIL';
++UPDATE `PREFIX_configuration` SET value = 'sales@localhost' WHERE name = 'BLOCKCONTACT_EMAIL';
+ UPDATE `PREFIX_configuration` SET value = '1' WHERE name = 'SUPPLIER_DISPLAY_TEXT';
+ UPDATE `PREFIX_configuration` SET value = '5' WHERE name = 'SUPPLIER_DISPLAY_TEXT_NB';
+ UPDATE `PREFIX_configuration` SET value = '1' WHERE name = 'SUPPLIER_DISPLAY_FORM';
+diff --git a/install/data/xml/configuration.xml b/install/data/xml/configuration.xml
+index 648f4b6..68ab666 100644
+--- a/install/data/xml/configuration.xml
++++ b/install/data/xml/configuration.xml
+@@ -627,7 +627,7 @@
+ 		<value>1</value>
+ 	</configuration>
+ 	<configuration id="BLOCKADVERT_LINK" name="BLOCKADVERT_LINK">
+-		<value>http://www.prestashop.com</value>
++		<value>http://localhost</value>
+ 	</configuration>
+ 	<configuration id="BLOCKSTORE_IMG" name="BLOCKSTORE_IMG">
+ 		<value>store.jpg</value>
+@@ -642,13 +642,13 @@
+ 		<value/>
+ 	</configuration>
+ 	<configuration id="blocksocial_facebook" name="BLOCKSOCIAL_FACEBOOK">
+-		<value>http://www.facebook.com/prestashop</value>
++		<value>http://www.facebook.com/</value>
+ 	</configuration>
+ 	<configuration id="blocksocial_twitter" name="BLOCKSOCIAL_TWITTER">
+-		<value>http://www.twitter.com/prestashop</value>
++		<value>http://www.twitter.com/</value>
+ 	</configuration>
+ 	<configuration id="blocksocial_rss" name="BLOCKSOCIAL_RSS">
+-		<value>http://www.prestashop.com/blog/en/feed/</value>
++		<value>http://localhost/rss/</value>
+ 	</configuration>
+ 	<configuration id="blockcontactinfos_company" name="BLOCKCONTACTINFOS_COMPANY">
+ 		<value>Your company</value>
+@@ -662,13 +662,13 @@ Country</value>
+ 		<value>0123-456-789</value>
+ 	</configuration>
+ 	<configuration id="blockcontactinfos_email" name="BLOCKCONTACTINFOS_EMAIL">
+-		<value>pub@prestashop.com</value>
++		<value>pub@localhost</value>
+ 	</configuration>
+ 	<configuration id="blockcontact_telnumber" name="BLOCKCONTACT_TELNUMBER">
+ 		<value>0123-456-789</value>
+ 	</configuration>
+ 	<configuration id="blockcontact_email" name="BLOCKCONTACT_EMAIL">
+-		<value>pub@prestashop.com</value>
++		<value>pub@localhost</value>
+ 	</configuration>
+ 	<configuration id="SUPPLIER_DISPLAY_TEXT" name="SUPPLIER_DISPLAY_TEXT">
+ 		<value>1</value>
+@@ -713,10 +713,10 @@ Country</value>
+ 		<value>localhost</value>
+ 	</configuration>
+ 	<configuration id="PS_SHOP_NAME" name="PS_SHOP_NAME">
+-		<value>PrestaShop</value>
++		<value>Webshop</value>
+ 	</configuration>
+ 	<configuration id="PS_SHOP_EMAIL" name="PS_SHOP_EMAIL">
+-		<value>pub@prestashop.com</value>
++		<value>pub@localhost</value>
+ 	</configuration>
+ 	<configuration id="PS_MAIL_METHOD" name="PS_MAIL_METHOD">
+ 		<value>1</value>
+diff --git a/install/upgrade/sql/1.1.0.1.sql b/install/upgrade/sql/1.1.0.1.sql
+index 344b69f..7ca64a0 100644
+--- a/install/upgrade/sql/1.1.0.1.sql
++++ b/install/upgrade/sql/1.1.0.1.sql
+@@ -186,7 +186,7 @@ ALTER TABLE `PREFIX_product_attribute` ADD `location` VARCHAR(64) NULL AFTER `su
+ ALTER TABLE `PREFIX_product` ADD `location` VARCHAR(64) NULL AFTER `supplier_reference`;
+ 
+ /* Paypal default e-mail fix */
+-UPDATE `PREFIX_configuration` SET value = 'paypal@prestashop.com' WHERE name = 'PAYPAL_BUSINESS' AND value = 'your-address@paypal.com';
++UPDATE `PREFIX_configuration` SET value = 'paypal@localhost' WHERE name = 'PAYPAL_BUSINESS' AND value = 'your-address@paypal.com';
+ 
+ /* ##################################### */
+ /* 					CONTENTS				*/
+diff --git a/install/upgrade/sql/1.5.4.0.sql b/install/upgrade/sql/1.5.4.0.sql
+index 9f486c6..1e005e0 100644
+--- a/install/upgrade/sql/1.5.4.0.sql
++++ b/install/upgrade/sql/1.5.4.0.sql
+@@ -48,8 +48,8 @@ ALTER TABLE `PREFIX_address` CHANGE `phone_mobile` `phone_mobile` varchar(32) de
+ 
+ /* PHP:update_genders_images(); */;
+ 
+-UPDATE `PREFIX_customer` SET `id_gender` = 1 WHERE `email` LIKE 'pub@prestashop.com' AND `id_customer` = 1 AND `id_gender` = 4;
++UPDATE `PREFIX_customer` SET `id_gender` = 1 WHERE `email` LIKE 'pub@localhost' AND `id_customer` = 1 AND `id_gender` = 4;
+ 
+ UPDATE `PREFIX_cart_rule_carrier` crc INNER JOIN `PREFIX_carrier` c ON crc.`id_carrier` = c.`id_carrier` SET crc.`id_carrier` = c.`id_reference`;
+ 
+-UPDATE `PREFIX_order_payment` SET `order_reference` = LPAD(order_reference, 9 , '0');
+\ No newline at end of file
++UPDATE `PREFIX_order_payment` SET `order_reference` = LPAD(order_reference, 9 , '0');
