@@ -1,8 +1,14 @@
 diff --git a/admin/themes/default/template/footer.tpl b/admin/themes/default/template/footer.tpl
-index ceecf3e..8c2220b 100644
+index f33b8bb..961a16e 100644
 --- a/admin/themes/default/template/footer.tpl
 +++ b/admin/themes/default/template/footer.tpl
-@@ -35,60 +35,8 @@
+@@ -29,69 +29,13 @@
+ <div id="footer" class="bootstrap hide">
+ 
+ 	<div class="col-sm-2 hidden-xs">
+-		<a href="http://www.prestashop.com/" class="_blank">PrestaShop&trade;</a>
+-		-
+ 		<span id="footer-load-time"><i class="icon-time" title="{l s='Load time: '}"></i> {number_format(microtime(true) - $timer_start, 3, '.', '')}s</span>
  	</div>
  
  	<div class="col-sm-2 hidden-xs">
@@ -20,8 +26,8 @@ index ceecf3e..8c2220b 100644
 -				<i class="icon-google-plus"></i>
 -			</a>
 -		</div>
- 	</div>
- 	<div class="col-sm-5">
+-	</div>
+-	<div class="col-sm-5">
 -		<div class="footer-contact">
 -			<a href="http://www.prestashop.com/en/contact_us?utm_source=back-office&amp;utm_medium=footer&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="footer_link _blank">
 -				<i class="icon-envelope"></i>
@@ -62,9 +68,13 @@ index ceecf3e..8c2220b 100644
 -		</div>
  	</div>
  
- 	<div class="col-sm-3">
+-	<div class="col-sm-3">
++	<div class="col-sm-8">
+ 		{hook h="displayBackOfficeFooter"}
+ 	</div>
+ 
 diff --git a/admin/themes/default/template/header.tpl b/admin/themes/default/template/header.tpl
-index 6dff899..fd013ea 100644
+index fbb11f7..1aff1a1 100644
 --- a/admin/themes/default/template/header.tpl
 +++ b/admin/themes/default/template/header.tpl
 @@ -296,15 +296,6 @@

@@ -1,5 +1,5 @@
 diff --git a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
-index e6b3d32..85707e2 100644
+index 4b5a2ad..6aa2c82 100644
 --- a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
 +++ b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
 @@ -87,46 +87,8 @@
@@ -51,7 +51,7 @@ index e6b3d32..85707e2 100644
  	</div>
  </div>
 diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index 62a6aea..79c3be8 100644
+index aab9c26..abb0bd7 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
 @@ -378,67 +378,6 @@ class AdminDashboardControllerCore extends AdminController
@@ -123,7 +123,7 @@ index 62a6aea..79c3be8 100644
      {
          $return = array('has_errors' => false, 'errors' => array());
 diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index b4328aa..11e6abd 100644
+index a3252ee..e6862ad 100644
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
 @@ -189,28 +189,6 @@ function data_list_small(widget_name, data) {
