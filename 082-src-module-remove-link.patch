@@ -1,0 +1,16 @@
+diff --git a/src/PrestaShopBundle/Resources/views/Admin/Module/tab-modules-list.html.twig b/src/PrestaShopBundle/Resources/views/Admin/Module/tab-modules-list.html.twig
+index ffbc2067..afb8d838 100644
+--- a/src/PrestaShopBundle/Resources/views/Admin/Module/tab-modules-list.html.twig
++++ b/src/PrestaShopBundle/Resources/views/Admin/Module/tab-modules-list.html.twig
+@@ -66,11 +66,6 @@
+   {% endif %}
+ </div>
+ {% endif %}
+-<div class="alert alert-addons row-margin-top" role="alert">
+-  <p class="alert-text">
+-    <a href="https://addons.prestashop.com/?utm_source=back-office&amp;utm_medium=dispatch&amp;utm_campaign=back-office-{{ app.request.locale }}&amp;utm_content=download{% if adminListFromSource is defined %}&amp;utm_term={{ adminListFromSource }}{% endif %}" onclick="return !window.open(this.href);">{{ 'More modules on addons.prestashop.com'|trans({}) }}</a>
+-  </p>
+-</div>
+ 
+ {% if modulesListShouldBeDisplayed == true %}
+   <script src="{{ asset('themes/new-theme/public/module_card.bundle.js') }}"></script>

@@ -1,44 +1,11 @@
-diff --git a/install/classes/controllerHttp.php b/install/classes/controllerHttp.php
-index 4b9f8dd..d94d303 100644
---- a/install/classes/controllerHttp.php
-+++ b/install/classes/controllerHttp.php
-@@ -335,28 +335,6 @@ class InstallControllerHttp
-     }
- 
-     /**
--     * Get telephone used for this language
--     *
--     * @return string
--     */
--    public function getPhone()
--    {
--        if (InstallSession::getInstance()->support_phone != null) {
--            return InstallSession::getInstance()->support_phone;
--        }
--        if ($this->phone === null) {
--            $this->phone = $this->translator->trans('XXXXXXXXXXXXXX', array(), 'Install');
--            if ($iframe = Tools::file_get_contents('http://api.prestashop.com/iframe/install.php?lang='.$this->language->getLanguageIso(), false, null, 3)) {
--                if (preg_match('/<img.+alt="([^"]+)".*>/Ui', $iframe, $matches) && isset($matches[1])) {
--                    $this->phone = $matches[1];
--                }
--            }
--        }
--        InstallSession::getInstance()->support_phone = $this->phone;
--        return $this->phone;
--    }
--
--    /**
-      * Get link to documentation for this language
-      *
-      * Enter description here ...
 diff --git a/install/theme/views/header.php b/install/theme/views/header.php
-index 86b2959..91216e3 100644
+index 6b2bafe8..9252b6d5 100644
 --- a/install/theme/views/header.php
 +++ b/install/theme/views/header.php
 @@ -38,13 +38,6 @@
- 		<li class="lnk_forum"><a href="<?php echo $this->getSupportLink() ?>" target="_blank"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a></li>
- 		<li class="lnk_forum"><a href="<?php echo $this->getDocumentationLink() ?>" target="_blank"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a></li>
- 		<li class="lnk_blog last"><a href="<?php echo $this->getBlogLink() ?>" target="_blank"><?php echo $this->translator->trans('Blog') ?></a></li>
+ 		<li class="lnk_forum"><a href="<?php echo $this->getSupportLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a></li>
+ 		<li class="lnk_forum"><a href="<?php echo $this->getDocumentationLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a></li>
+ 		<li class="lnk_blog last"><a href="<?php echo $this->getBlogLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Blog', array(), 'Install') ?></a></li>
 -		<!--
 -		<?php if ($this->getPhone()): ?>
 -			<li id="phone_block" class="last">
@@ -55,8 +22,8 @@ index 86b2959..91216e3 100644
  	</ol>
 -	<?php if (@fsockopen('api.prestashop.com', 80, $errno, $errst, 3)): ?>
 -		<iframe scrolling="no" style="height:210px;width:200px;border:none;margin-top:20px" id="iframe_help"
--			src="https://api.prestashop.com/iframe/install.php?step=<?php echo $this->step ?>&lang=<?php echo $this->language->getLanguageIso() ?><?php if (isset($this->session->shop_country)) echo '&country='.$this->session->shop_country; ?>">
--			<p><?php echo $this->translator->trans('Contact us!') ?><br /><?php echo $this->getPhone() ?></p>
+-			src="https://api.prestashop.com/iframe/install.php?step=<?php echo self::$steps->current()->getName() ?>&lang=<?php echo $this->language->getLanguageIso() ?><?php if (isset($this->session->shop_country)) echo '&country='.$this->session->shop_country; ?>">
+-			<p><?php echo $this->translator->trans('Contact us!', array(), 'Install') ?><br /><?php echo $this->getPhone() ?></p>
 -		</iframe>
 -	<?php endif; ?>
  </div>

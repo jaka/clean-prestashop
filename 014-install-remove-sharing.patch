@@ -1,0 +1,72 @@
+diff --git a/install/theme/views/footer.php b/install/theme/views/footer.php
+index 5318525b..2b3e44e0 100644
+--- a/install/theme/views/footer.php
++++ b/install/theme/views/footer.php
+@@ -15,19 +15,8 @@
+ 	<?php endif; ?>
+ </div>
+ </form>
+-<div id="phone_help">
+-	<?php echo $this->translator->trans('If you need some assistance, you can <a href="%help%" onclick="return !window.open(this.href);">get tailored help</a> from our support team. <a href="%doc%" onclick="return !window.open(this.href);">The official documentation</a> is also here to guide you.', array('%help%' => $this->getTailoredHelp(), '%doc%' => $this->getDocumentationLink()), 'Install'); ?>
+-</div>
+ </div><!-- div id="container" -->
+ 
+-<ul id="footer">
+-	<li><a href="<?php echo $this->getForumLink() ?>" title="<?php echo $this->translator->trans('Official forum', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Official forum', array(), 'Install'); ?></a> | </li>
+-	<li><a href="http://www.prestashop.com" title="PrestaShop.com" target="_blank">PrestaShop.com</a> | </li>
+-	<li><a href="<?php echo $this->getSupportLink() ?>" title="<?php echo $this->translator->trans('Support', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a> | </li>
+-	<li><a href="<?php echo $this->getDocumentationLink() ?>" title="<?php echo $this->translator->trans('Documentation', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a> | </li>
+-	<li><a href="https://www.prestashop.com/<?php echo $this->language->getLanguageIso() ?>/contact-us" title="<?php echo $this->translator->trans('Contact us', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Contact us', array(), 'Install'); ?></a> | </li>
+-	<li>&copy; 2007-<?php echo date('Y'); ?></li>
+-</ul>
+ <script type="text/javascript">
+ 	if (typeof psuser_assistance != 'undefined')
+ 	{
+diff --git a/install/theme/views/process.php b/install/theme/views/process.php
+index 79ece51c..94a56f57 100644
+--- a/install/theme/views/process.php
++++ b/install/theme/views/process.php
+@@ -104,25 +104,6 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
+ 			</p>
+ 		</div>
+ 	</div>
+-
+-	<div class="sharing">
+-		<p><?php echo $this->translator->trans('Share your experience with your friends!', array(), 'Install'); ?></p>
+-		<button type="button" class="btn-twitter" onclick="psinstall_twitter_click('<?php echo $this->translator->trans('I just built an online store with PrestaShop!', array(), 'Install'); ?> <?php echo $this->translator->trans('Watch this exhilarating experience: http://vimeo.com/89298199', array(), 'Install'); ?>');">
+-			<i></i> <?php echo $this->translator->trans('Tweet', array(), 'Install'); ?>
+-		</button>
+-		<button type="button" class="btn-facebook" onclick="psinstall_facebook_click();">
+-			<i></i> <?php echo $this->translator->trans('Share', array(), 'Install'); ?>
+-		</button>
+-		<button type="button" class="btn-google-plus" onclick="psinstall_google_click();">
+-			<i></i> <?php echo $this->translator->trans('Google+', array(), 'Install'); ?>
+-		</button>
+-		<button type="button" class="btn-pinterest" onclick="psinstall_pinterest_click();">
+-			<i></i> <?php echo $this->translator->trans('Pinterest', array(), 'Install'); ?>
+-		</button>
+-		<button type="button" class="btn-linkedin" onclick="psinstall_linkedin_click();">
+-			<i></i> <?php echo $this->translator->trans('LinkedIn', array(), 'Install'); ?>
+-		</button>
+-	</div>
+ </div>
+ 
+ <?php $this->displayTemplate('footer') ?>
+diff --git a/install/theme/views/header.php b/install/theme/views/header.php
+index c2a8da6d..ba58edbe 100644
+--- a/install/theme/views/header.php
++++ b/install/theme/views/header.php
+@@ -32,13 +32,6 @@
+ 
+ <!-- Header -->
+ <div id="header" class="clearfix">
+-	<ul id="headerLinks">
+-		<li class="lnk_forum"><a href="<?php echo $this->getForumLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Forum', array(), 'Install'); ?></a></li>
+-		<li class="lnk_forum"><a href="<?php echo $this->getSupportLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a></li>
+-		<li class="lnk_forum"><a href="<?php echo $this->getDocumentationLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a></li>
+-		<li class="lnk_blog last"><a href="<?php echo $this->getBlogLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Blog', array(), 'Install') ?></a></li>
+-	</ul>
+-
+ 	<div id="PrestaShopLogo">PrestaShop</div>
+ </div>
+ 

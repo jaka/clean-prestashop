@@ -1,0 +1,32 @@
+diff --git a/js/admin.js b/js/admin.js
+index 273f8661..49cb1e64 100644
+--- a/js/admin.js
++++ b/js/admin.js
+@@ -840,7 +840,7 @@ $(document).ready(function()
+     var moduleLink = $(this).data('link');
+     var authorUri = $(this).data('author-uri');
+     var isValidUri = /(https?):\/\/([a-z0-9\.]*)?(prestashop.com).*/gi;
+-    var addonsSearchLink = 'https://addons.prestashop.com/en/search?search_query='+encodeURIComponent(moduleDisplayName)+'&utm_source=back-office&utm_medium=addons-certified&utm_campaign=back-office-'+iso_user.toUpperCase();
++    var addonsSearchLink = 'https://addons.prestashop.com/en/search?search_query='+encodeURIComponent(moduleDisplayName);
+ 
+     $('.modal #untrusted-module-logo').attr('src', moduleImage);
+     $('.modal .module-display-name-placeholder').text(moduleDisplayName);
+diff --git a/js/admin/addons.js b/js/admin/addons.js
+index 320bfa1a..a2956db2 100644
+--- a/js/admin/addons.js
++++ b/js/admin/addons.js
+@@ -24,12 +24,12 @@
+  */
+ function sendSearchQuery() {
+ 	pattern = $('#addons-search-box').val();
+-	url = 'https://addons.prestashop.com/en/search.php?search_query='+pattern+'&amp;utm_source=back-office&amp;utm_medium=recherche-theme&amp;utm_campaign=back-office-EN';
++	url = 'https://addons.prestashop.com/en/search.php?search_query='+pattern;
+ 	window.open(url, '_blank');
+ }
+ 
+ function goToProduct(url) {
+-	window.open(url+'&amp;utm_source=back-office&amp;utm_medium=themes-push&amp;utm_campaign=back-office-EN', '_blank');
++	window.open(url, '_blank');
+ }
+ 
+ $(document).ready(function() {

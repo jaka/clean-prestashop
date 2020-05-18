@@ -1,0 +1,46 @@
+diff --git a/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php b/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
+index 0b94c8b9..96ac42ad 100644
+--- a/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
++++ b/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
+@@ -85,24 +85,12 @@ class ThemeController extends AbstractAdminController
+         $isHostMode = $this->get('prestashop.adapter.hosting_information')->isHostMode();
+         $isoCode = strtoupper($this->get('prestashop.adapter.legacy.context')->getLanguage()->iso_code);
+ 
+-        $themeCatalogUrl = sprintf(
+-            '%s?%s',
+-            'https://addons.prestashop.com/en/3-templates-prestashop',
+-            http_build_query([
+-                'utm_source' => 'back-office',
+-                'utm_medium' => 'theme-button',
+-                'utm_campaign' => 'back-office-' . $isoCode,
+-                'utm_content' => $isHostMode ? 'cloud' : 'download',
+-            ])
+-        );
+-
+         $themeProvider = $this->get('prestashop.core.addon.theme.theme_provider');
+         $installedRtlLanguageChecker = $this->get('prestashop.adapter.language.rtl.installed_language_checker');
+         /** @var LogosPaths $logoProvider */
+         $logoProvider = $this->getQueryBus()->handle(new GetLogosPaths());
+ 
+         return $this->render('@PrestaShop/Admin/Improve/Design/Theme/index.html.twig', [
+-            'themeCatalogUrl' => $themeCatalogUrl,
+             'baseShopUrl' => $this->get('prestashop.adapter.shop.url.base_url_provider')->getUrl(),
+             'shopLogosForm' => $this->getLogosUploadForm()->createView(),
+             'headerLogoPath' => $logoProvider->getHeaderLogoPath(),
+diff --git a/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig b/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
+index 736cc88f..eb1f5837 100644
+--- a/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
++++ b/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
+@@ -146,12 +146,6 @@
+                 {{ 'Explore more than a thousand themes'|trans({}, 'Admin.Design.Feature') }}
+               {% endblock %}
+ 
+-              {% block button_container %}
+-                <a class="btn btn-primary" href="{{ themeCatalogUrl }}" target="_blank">
+-                  {{ 'Visit the theme catalog'|trans({}, 'Admin.Design.Feature') }}
+-                </a>
+-              {% endblock %}
+-
+             {% endembed %}
+ 
+             {% include '@PrestaShop/Admin/Improve/Design/Theme/Blocks/layouts_configuration.html.twig' %}

@@ -1,0 +1,38 @@
+diff --git a/classes/controller/AdminController.php b/classes/controller/AdminController.php
+index 4ccf498d..7d44959b 100644
+--- a/classes/controller/AdminController.php
++++ b/classes/controller/AdminController.php
+@@ -1596,10 +1596,12 @@ class AdminControllerCore extends Controller
+             $this->page_header_toolbar_title = $this->toolbar_title[count($this->toolbar_title) - 1];
+         }
+ 
++/*
+         $this->addPageHeaderToolBarModulesListButton();
+ 
+         $this->context->smarty->assign('help_link', 'https://help.prestashop.com/' . Language::getIsoById($this->context->employee->id_lang) . '/doc/'
+             . Tools::getValue('controller') . '?version=' . _PS_VERSION_ . '&country=' . Language::getIsoById($this->context->employee->id_lang));
++*/
+     }
+ 
+     /**
+@@ -1668,7 +1670,9 @@ class AdminControllerCore extends Controller
+                     );
+                 }
+         }
++/*
+         $this->addToolBarModulesListButton();
++*/
+     }
+ 
+     /**
+@@ -2182,8 +2186,10 @@ class AdminControllerCore extends Controller
+         if (is_array($this->tab_modules_list['default_list']) && count($this->tab_modules_list['default_list'])) {
+             $this->filter_modules_list = $this->tab_modules_list['default_list'];
+         } elseif (is_array($this->tab_modules_list['slider_list']) && count($this->tab_modules_list['slider_list'])) {
++/*
+             $this->addToolBarModulesListButton();
+             $this->addPageHeaderToolBarModulesListButton();
++*/
+             $this->context->smarty->assign(array(
+                 'tab_modules_list' => implode(',', $this->tab_modules_list['slider_list']),
+                 'admin_module_ajax_url' => $this->context->link->getAdminLink('AdminModules'),

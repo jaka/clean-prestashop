@@ -1,40 +1,41 @@
 diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index e89e2f8..c912f57 100644
+index b71475f2..afa9d7e1 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
-@@ -56,11 +56,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -55,11 +55,6 @@ class AdminDashboardControllerCore extends AdminController
      public function initPageHeaderToolbar()
      {
          $this->page_header_toolbar_title = $this->trans('Dashboard', array(), 'Admin.Dashboard.Feature');
 -        $this->page_header_toolbar_btn['switch_demo'] = array(
 -            'desc' => $this->trans('Demo mode', array(), 'Admin.Dashboard.Feature'),
--            'icon' => 'process-icon-toggle-'.(Configuration::get('PS_DASHBOARD_SIMULATION') ? 'on' : 'off'),
--            'help' => $this->trans('This mode displays sample data so you can try your dashboard without real numbers.', array(), 'Admin.Dashboard.Help')
+-            'icon' => 'process-icon-toggle-' . (Configuration::get('PS_DASHBOARD_SIMULATION') ? 'on' : 'off'),
+-            'help' => $this->trans('This mode displays sample data so you can try your dashboard without real numbers.', array(), 'Admin.Dashboard.Help'),
 -        );
  
          parent::initPageHeaderToolbar();
  
-@@ -431,12 +426,6 @@ class AdminDashboardControllerCore extends AdminController
-         die(json_encode(Hook::exec('dashboardData', $params, $id_module, true, true, (int)Tools::getValue('dashboard_use_push'))));
+@@ -440,12 +435,6 @@ class AdminDashboardControllerCore extends AdminController
+         die(json_encode(Hook::exec('dashboardData', $params, $id_module, true, true, (int) Tools::getValue('dashboard_use_push'))));
      }
  
 -    public function ajaxProcessSetSimulationMode()
 -    {
--        Configuration::updateValue('PS_DASHBOARD_SIMULATION', (int)Tools::getValue('PS_DASHBOARD_SIMULATION'));
--        die('k'.Configuration::get('PS_DASHBOARD_SIMULATION').'k');
+-        Configuration::updateValue('PS_DASHBOARD_SIMULATION', (int) Tools::getValue('PS_DASHBOARD_SIMULATION'));
+-        die('k' . Configuration::get('PS_DASHBOARD_SIMULATION') . 'k');
 -    }
 -
-     public function ajaxProcessSaveDashConfig()
+     public function ajaxProcessGetBlogRss()
      {
-         $return = array('has_errors' => false, 'errors' => array());
+         $return = array('has_errors' => false, 'rss' => array());
 diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index ff0de5f..2527f45 100644
+index 13296145..99834231 100644
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -281,22 +281,4 @@ $(document).ready( function () {
+@@ -302,23 +302,4 @@ $(document).ready( function () {
+ 	refreshDashboard(false, false);
  	bindSubmitDashConfig();
  	bindCancelDashConfig();
- 
+-
 -	$('#page-header-desc-configuration-switch_demo').tooltip().click(function(e) {
 -		$.ajax({
 -			url : dashboard_ajax_url,
@@ -55,231 +56,233 @@ index ff0de5f..2527f45 100644
 -	});
  });
 diff --git a/modules/dashactivity/dashactivity.php b/modules/dashactivity/dashactivity.php
-index d3fd55b..0cce405 100644
+index 1f6fd338..9ab7ecb1 100755
 --- a/modules/dashactivity/dashactivity.php
 +++ b/modules/dashactivity/dashactivity.php
-@@ -111,51 +111,6 @@ class Dashactivity extends Module
- 		if (Tools::strlen($params['date_to']) == 10)
- 			$params['date_to'] .= ' 23:59:59';
+@@ -115,50 +115,6 @@ class dashactivity extends Module
+             $params['date_to'] .= ' 23:59:59';
+         }
  
--		if (Configuration::get('PS_DASHBOARD_SIMULATION'))
--		{
--			$days = (strtotime($params['date_to']) - strtotime($params['date_from'])) / 3600 / 24;
--			$online_visitor = rand(10, 50);
--			$visits = rand(200, 2000) * $days;
+-        if (Configuration::get('PS_DASHBOARD_SIMULATION')) {
+-            $days = (strtotime($params['date_to']) - strtotime($params['date_from'])) / 3600 / 24;
+-            $online_visitor = rand(10, 50);
+-            $visits = rand(200, 2000) * $days;
 -
--			return array(
--				'data_value' => array(
--					'pending_orders' => round(rand(0, 5)),
--					'return_exchanges' => round(rand(0, 5)),
--					'abandoned_cart' => round(rand(5, 50)),
--					'products_out_of_stock' => round(rand(1, 10)),
--					'new_messages' => round(rand(1, 10) * $days),
--					'product_reviews' => round(rand(5, 50) * $days),
--					'new_customers' => round(rand(1, 5) * $days),
--					'online_visitor' => round($online_visitor),
--					'active_shopping_cart' => round($online_visitor / 10),
--					'new_registrations' => round(rand(1, 5) * $days),
--					'total_suscribers' => round(rand(200, 2000)),
--					'visits' => round($visits),
--					'unique_visitors' => round($visits * 0.6),
--				),
--				'data_trends' => array(
--					'orders_trends' => array('way' => 'down', 'value' => 0.42),
--				),
--				'data_list_small' => array(
--					'dash_traffic_source' => array(
--						'<i class="icon-circle" style="color:'.self::$colors[0].'"></i> prestashop.com' => round($visits / 2),
--						'<i class="icon-circle" style="color:'.self::$colors[1].'"></i> google.com' => round($visits / 3),
--						'<i class="icon-circle" style="color:'.self::$colors[2].'"></i> Direct Traffic' => round($visits / 4)
--					)
--				),
--				'data_chart' => array(
--					'dash_trends_chart1' => array(
--						'chart_type' => 'pie_chart_trends',
--						'data' => array(
--							array('key' => 'prestashop.com', 'y' => round($visits / 2), 'color' => self::$colors[0]),
--							array('key' => 'google.com', 'y' => round($visits / 3), 'color' => self::$colors[1]),
--							array('key' => 'Direct Traffic', 'y' => round($visits / 4), 'color' => self::$colors[2])
--						)
--					)
--				)
--			);
--		}
+-            return array(
+-                'data_value' => array(
+-                    'pending_orders' => round(rand(0, 5)),
+-                    'return_exchanges' => round(rand(0, 5)),
+-                    'abandoned_cart' => round(rand(5, 50)),
+-                    'products_out_of_stock' => round(rand(1, 10)),
+-                    'new_messages' => round(rand(1, 10) * $days),
+-                    'product_reviews' => round(rand(5, 50) * $days),
+-                    'new_customers' => round(rand(1, 5) * $days),
+-                    'online_visitor' => round($online_visitor),
+-                    'active_shopping_cart' => round($online_visitor / 10),
+-                    'new_registrations' => round(rand(1, 5) * $days),
+-                    'total_suscribers' => round(rand(200, 2000)),
+-                    'visits' => round($visits),
+-                    'unique_visitors' => round($visits * 0.6),
+-                ),
+-                'data_trends' => array(
+-                    'orders_trends' => array('way' => 'down', 'value' => 0.42),
+-                ),
+-                'data_list_small' => array(
+-                    'dash_traffic_source' => array(
+-                        '<i class="icon-circle" style="color:'.self::$colors[0].'"></i> prestashop.com' => round($visits / 2),
+-                        '<i class="icon-circle" style="color:'.self::$colors[1].'"></i> google.com' => round($visits / 3),
+-                        '<i class="icon-circle" style="color:'.self::$colors[2].'"></i> Direct Traffic' => round($visits / 4)
+-                    )
+-                ),
+-                'data_chart' => array(
+-                    'dash_trends_chart1' => array(
+-                        'chart_type' => 'pie_chart_trends',
+-                        'data' => array(
+-                            array('key' => 'prestashop.com', 'y' => round($visits / 2), 'color' => self::$colors[0]),
+-                            array('key' => 'google.com', 'y' => round($visits / 3), 'color' => self::$colors[1]),
+-                            array('key' => 'Direct Traffic', 'y' => round($visits / 4), 'color' => self::$colors[2])
+-                        )
+-                    )
+-                )
+-            );
+-        }
 -
- 		$gapi = Module::isInstalled('gapi') ? Module::getInstanceByName('gapi') : false;
- 		if (Validate::isLoadedObject($gapi) && $gapi->isConfigured())
- 		{
+         $gapi = Module::isInstalled('gapi') ? Module::getInstanceByName('gapi') : false;
+         if (Validate::isLoadedObject($gapi) && $gapi->isConfigured()) {
+             $visits = $unique_visitors = $online_visitor = 0;
 diff --git a/modules/dashgoals/dashgoals.php b/modules/dashgoals/dashgoals.php
-index 41cd7a8..0a425b4 100644
+index 30fee156..3fae669d 100755
 --- a/modules/dashgoals/dashgoals.php
 +++ b/modules/dashgoals/dashgoals.php
-@@ -215,141 +215,6 @@ class DashGoals extends Module
- 				$average_goals[$stream_type['type']] = 0;
- 		}
+@@ -222,145 +222,7 @@ class dashgoals extends Module
+             }
+         }
  
--		if (Configuration::get('PS_DASHBOARD_SIMULATION'))
--		{
--			$visits = $orders = $sales = array();
--			$from = strtotime(date('Y-01-01 00:00:00'));
--			$to = strtotime(date('Y-12-31 00:00:00'));
--			for ($date = $from; $date <= $to; $date = strtotime('+1 day', $date))
--			{
--				$visits[$date] = round(rand(2000, 5000));
--				$orders[$date] = round(rand(40, 100));
--				$sales[$date] = round(rand(3000, 9000), 2);
--			}
+-        if (Configuration::get('PS_DASHBOARD_SIMULATION')) {
+-            $visits = $orders = $sales = array();
+-            $from = strtotime(date('Y-01-01 00:00:00'));
+-            $to = strtotime(date('Y-12-31 00:00:00'));
+-            for ($date = $from; $date <= $to; $date = strtotime('+1 day', $date)) {
+-                $visits[$date] = round(rand(2000, 5000));
+-                $orders[$date] = round(rand(40, 100));
+-                $sales[$date] = round(rand(3000, 9000), 2);
+-            }
 -
--			// We need to calculate the average value of each goals for the year, this will be the base rate for "100%"
--			for ($i = '01'; $i <= 12; $i = sprintf('%02d', $i + 1))
--			{
--				$average_goals['traffic'] += $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year);
--				$average_goals['conversion'] += $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year);
--				$average_goals['avg_cart_value'] += $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
--			}
--			foreach ($average_goals as &$average_goal)
--				$average_goal /= 12;
--			$average_goals['sales'] = $average_goals['traffic'] * $average_goals['conversion'] / 100 * $average_goals['avg_cart_value'];
+-            // We need to calculate the average value of each goals for the year, this will be the base rate for "100%"
+-            for ($i = '01'; $i <= 12; $i = sprintf('%02d', $i + 1)) {
+-                $average_goals['traffic'] += $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year);
+-                $average_goals['conversion'] += $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year);
+-                $average_goals['avg_cart_value'] += $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
+-            }
+-            foreach ($average_goals as &$average_goal) {
+-                $average_goal /= 12;
+-            }
+-            $average_goals['sales'] = $average_goals['traffic'] * $average_goals['conversion'] / 100 * $average_goals['avg_cart_value'];
 -
--			// Now we can calculate the value for every months
--			for ($i = '01'; $i <= 12; $i = sprintf('%02d', $i + 1))
--			{
--				$timestamp = strtotime($year.'-'.$i.'-01');
+-            // Now we can calculate the value for every months
+-            for ($i = '01'; $i <= 12; $i = sprintf('%02d', $i + 1)) {
+-                $timestamp = strtotime($year.'-'.$i.'-01');
 -
--				$month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year);
--				$value = (isset($visits[$timestamp]) ? $visits[$timestamp] : 0);
--				$stream_values = $this->getValuesFromGoals($average_goals['traffic'], $month_goal, $value, Dashgoals::$month_labels[$i]);
--				$goal_diff = $value - $month_goal;
--				$stream_values['real']['traffic'] = $value;
--				$stream_values['real']['goal'] = $month_goal;
--				if ($value > 0)
--					$stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                $month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year);
+-                $value = (isset($visits[$timestamp]) ? $visits[$timestamp] : 0);
+-                $stream_values = $this->getValuesFromGoals($average_goals['traffic'], $month_goal, $value, self::$month_labels[$i]);
+-                $goal_diff = $value - $month_goal;
+-                $stream_values['real']['traffic'] = $value;
+-                $stream_values['real']['goal'] = $month_goal;
+-                if ($value > 0) {
+-                    $stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                }
 -
--				$stream_values['less']['traffic'] = $value;
--				$stream_values['more']['traffic'] = $value;
+-                $stream_values['less']['traffic'] = $value;
+-                $stream_values['more']['traffic'] = $value;
 -
--				if ($value > 0 && $value < $month_goal)
--					$stream_values['less']['goal_diff'] = $goal_diff;
--				elseif ($value > 0)
--					$stream_values['more']['goal_diff'] = $goal_diff;
+-                if ($value > 0 && $value < $month_goal) {
+-                    $stream_values['less']['goal_diff'] = $goal_diff;
+-                } elseif ($value > 0) {
+-                    $stream_values['more']['goal_diff'] = $goal_diff;
+-                }
 -
--				if ($value == 0)
--				{
--					$streams['traffic']['less']['zone_text'] = $this->l('Goal set:');
--					$stream_values['less']['goal'] = $month_goal;
--				}
+-                if ($value == 0) {
+-                    $streams['traffic']['less']['zone_text'] = $this->trans('Goal set:', array(), 'Modules.Dashgoals.Admin');
+-                    $stream_values['less']['goal'] = $month_goal;
+-                }
 -
--				foreach ($stream_zones as $stream_zone)
--					$streams['traffic'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                foreach ($stream_zones as $stream_zone) {
+-                    $streams['traffic'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                }
 -
--				$month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year);
--				$value = 100 * ((isset($visits[$timestamp]) && $visits[$timestamp] && isset($orders[$timestamp]) && $orders[$timestamp]) ? ($orders[$timestamp] / $visits[$timestamp]) : 0);
--				$stream_values = $this->getValuesFromGoals($average_goals['conversion'], $month_goal, $value, Dashgoals::$month_labels[$i]);
--				$goal_diff = $value - $month_goal;
--				$stream_values['real']['conversion'] = round($value, 2);
--				$stream_values['real']['goal'] = round($month_goal, 2);
--				if ($value > 0)
--					$stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                $month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year);
+-                $value = 100 * ((isset($visits[$timestamp]) && $visits[$timestamp] && isset($orders[$timestamp]) && $orders[$timestamp]) ? ($orders[$timestamp] / $visits[$timestamp]) : 0);
+-                $stream_values = $this->getValuesFromGoals($average_goals['conversion'], $month_goal, $value, self::$month_labels[$i]);
+-                $goal_diff = $value - $month_goal;
+-                $stream_values['real']['conversion'] = round($value, 2);
+-                $stream_values['real']['goal'] = round($month_goal, 2);
+-                if ($value > 0) {
+-                    $stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                }
 -
--				$stream_values['less']['conversion'] = $value;
--				$stream_values['more']['conversion'] = $value;
+-                $stream_values['less']['conversion'] = $value;
+-                $stream_values['more']['conversion'] = $value;
 -
--				if ($value > 0 && $value < $month_goal)
--					$stream_values['less']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
--				elseif ($value > 0)
--					$stream_values['more']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                if ($value > 0 && $value < $month_goal) {
+-                    $stream_values['less']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                } elseif ($value > 0) {
+-                    $stream_values['more']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                }
 -
--				if ($value == 0)
--				{
--					$streams['conversion']['less']['zone_text'] = $this->l('Goal set:');
--					$stream_values['less']['goal'] = $month_goal;
--				}
+-                if ($value == 0) {
+-                    $streams['conversion']['less']['zone_text'] = $this->trans('Goal set:', array(), 'Modules.Dashgoals.Admin');
+-                    $stream_values['less']['goal'] = $month_goal;
+-                }
 -
--				foreach ($stream_zones as $stream_zone)
--					$streams['conversion'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                foreach ($stream_zones as $stream_zone) {
+-                    $streams['conversion'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                }
 -
--				$month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
--				$value = ((isset($orders[$timestamp]) && $orders[$timestamp] && isset($sales[$timestamp]) && $sales[$timestamp]) ? ($sales[$timestamp] / $orders[$timestamp]) : 0);
--				$stream_values = $this->getValuesFromGoals($average_goals['avg_cart_value'], $month_goal, $value, Dashgoals::$month_labels[$i]);
--				$goal_diff = $value - $month_goal;
--				$stream_values['real']['avg_cart_value'] = $value;
--				$stream_values['real']['goal'] = $month_goal;
--				if ($value > 0)
--					$stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                $month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
+-                $value = ((isset($orders[$timestamp]) && $orders[$timestamp] && isset($sales[$timestamp]) && $sales[$timestamp]) ? ($sales[$timestamp] / $orders[$timestamp]) : 0);
+-                $stream_values = $this->getValuesFromGoals($average_goals['avg_cart_value'], $month_goal, $value, self::$month_labels[$i]);
+-                $goal_diff = $value - $month_goal;
+-                $stream_values['real']['avg_cart_value'] = $value;
+-                $stream_values['real']['goal'] = $month_goal;
+-                if ($value > 0) {
+-                    $stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                }
 -
--				$stream_values['less']['avg_cart_value'] = $value;
--				$stream_values['more']['avg_cart_value'] = $value;
+-                $stream_values['less']['avg_cart_value'] = $value;
+-                $stream_values['more']['avg_cart_value'] = $value;
 -
--				if ($value > 0 && $value < $month_goal)
--					$stream_values['less']['goal_diff'] = $goal_diff;
--				elseif ($value > 0)
--					$stream_values['more']['goal_diff'] = $goal_diff;
+-                if ($value > 0 && $value < $month_goal) {
+-                    $stream_values['less']['goal_diff'] = $goal_diff;
+-                } elseif ($value > 0) {
+-                    $stream_values['more']['goal_diff'] = $goal_diff;
+-                }
 -
--				if ($value == 0)
--				{
--					$streams['avg_cart_value']['less']['zone_text'] = $this->l('Goal set:');
--					$stream_values['less']['goal'] = $month_goal;
--				}
+-                if ($value == 0) {
+-                    $streams['avg_cart_value']['less']['zone_text'] = $this->trans('Goal set:', array(), 'Modules.Dashgoals.Admin');
+-                    $stream_values['less']['goal'] = $month_goal;
+-                }
 -
--				foreach ($stream_zones as $stream_zone)
--					$streams['avg_cart_value'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                foreach ($stream_zones as $stream_zone) {
+-                    $streams['avg_cart_value'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                }
 -
--				$month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year) * $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year) / 100 * $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
--				$value = (isset($sales[$timestamp]) ? $sales[$timestamp] : 0);
--				$stream_values = $this->getValuesFromGoals($average_goals['sales'], $month_goal, $value, Dashgoals::$month_labels[$i]);
--				$goal_diff = $value - $month_goal;
--				$stream_values['real']['sales'] = $value;
--				$stream_values['real']['goal'] = $month_goal;
+-                $month_goal = $this->fakeConfigurationKPI_get('DASHGOALS_TRAFFIC_'.$i.'_'.$year) * $this->fakeConfigurationKPI_get('DASHGOALS_CONVERSION_'.$i.'_'.$year) / 100 * $this->fakeConfigurationKPI_get('DASHGOALS_AVG_CART_VALUE_'.$i.'_'.$year);
+-                $value = (isset($sales[$timestamp]) ? $sales[$timestamp] : 0);
+-                $stream_values = $this->getValuesFromGoals($average_goals['sales'], $month_goal, $value, self::$month_labels[$i]);
+-                $goal_diff = $value - $month_goal;
+-                $stream_values['real']['sales'] = $value;
+-                $stream_values['real']['goal'] = $month_goal;
 -
--				if ($value > 0)
--					$stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                if ($value > 0) {
+-                    $stream_values['real']['goal_diff'] = round(($goal_diff * 100) / ($month_goal > 0 ? $month_goal : 1), 2);
+-                }
 -
--				$stream_values['less']['sales'] = $value;
--				$stream_values['more']['sales'] = $value;
+-                $stream_values['less']['sales'] = $value;
+-                $stream_values['more']['sales'] = $value;
 -
--				if ($value > 0 && $value < $month_goal)
--					$stream_values['less']['goal_diff'] = $goal_diff;
--				elseif ($value > 0)
--					$stream_values['more']['goal_diff'] = $goal_diff;
+-                if ($value > 0 && $value < $month_goal) {
+-                    $stream_values['less']['goal_diff'] = $goal_diff;
+-                } elseif ($value > 0) {
+-                    $stream_values['more']['goal_diff'] = $goal_diff;
+-                }
 -
--				if ($value == 0)
--				{
--					$streams['sales']['less']['zone_text'] = $this->l('Goal set:');
--					$stream_values['less']['goal'] = $month_goal;
--				}
+-                if ($value == 0) {
+-                    $streams['sales']['less']['zone_text'] = $this->trans('Goal set:', array(), 'Modules.Dashgoals.Admin');
+-                    $stream_values['less']['goal'] = $month_goal;
+-                }
 -
--				foreach ($stream_zones as $stream_zone)
--					$streams['sales'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
--			}
--		}
--		else
- 		{
- 			// Retrieve gross data from AdminStatsController
- 			$visits = AdminStatsController::getVisits(false, $year.date('-01-01'), $year.date('-12-31'), 'month');
+-                foreach ($stream_zones as $stream_zone) {
+-                    $streams['sales'][$stream_zone['zone']]['values'][] = $stream_values[$stream_zone['zone']];
+-                }
+-            }
+-        } else {
++        {
+             // Retrieve gross data from AdminStatsController
+             $visits = AdminStatsController::getVisits(false, $year.date('-01-01'), $year.date('-12-31'), 'month');
+             $orders = AdminStatsController::getOrders($year.date('-01-01'), $year.date('-12-31'), 'month');
 diff --git a/modules/dashtrends/dashtrends.php b/modules/dashtrends/dashtrends.php
-index 2905e74..63fd4d0 100644
+index 3eb92ce0..c76b9805 100755
 --- a/modules/dashtrends/dashtrends.php
 +++ b/modules/dashtrends/dashtrends.php
-@@ -87,22 +87,6 @@ class Dashtrends extends Module
- 			'total_expenses' => array()
- 		);
+@@ -89,19 +89,7 @@ class dashtrends extends Module
+             'total_expenses' => array()
+         );
  
--		if (Configuration::get('PS_DASHBOARD_SIMULATION'))
--		{
--			$from = strtotime($date_from.' 00:00:00');
--			$to = min(time(), strtotime($date_to.' 23:59:59'));
--			for ($date = $from; $date <= $to; $date = strtotime('+1 day', $date))
--			{
--				$tmp_data['visits'][$date] = round(rand(2000, 20000));
--				$tmp_data['conversion_rate'][$date] = rand(80, 250) / 100;
--				$tmp_data['average_cart_value'][$date] = round(rand(60, 200), 2);
--				$tmp_data['orders'][$date] = round($tmp_data['visits'][$date] * $tmp_data['conversion_rate'][$date] / 100);
--				$tmp_data['total_paid_tax_excl'][$date] = $tmp_data['orders'][$date] * $tmp_data['average_cart_value'][$date];
--				$tmp_data['total_purchases'][$date] = $tmp_data['total_paid_tax_excl'][$date] * rand(50, 70) / 100;
--				$tmp_data['total_expenses'][$date] = $tmp_data['total_paid_tax_excl'][$date] * rand(0, 10) / 100;
--			}
--		}
--		else
- 		{
- 			$tmp_data['visits'] = AdminStatsController::getVisits(false, $date_from, $date_to, 'day');
- 			$tmp_data['orders'] = AdminStatsController::getOrders($date_from, $date_to, 'day');
+-        if (Configuration::get('PS_DASHBOARD_SIMULATION')) {
+-            $from = strtotime($date_from.' 00:00:00');
+-            $to = min(time(), strtotime($date_to.' 23:59:59'));
+-            for ($date = $from; $date <= $to; $date = strtotime('+1 day', $date)) {
+-                $tmp_data['visits'][$date] = round(rand(2000, 20000));
+-                $tmp_data['conversion_rate'][$date] = rand(80, 250) / 100;
+-                $tmp_data['average_cart_value'][$date] = round(rand(60, 200), 2);
+-                $tmp_data['orders'][$date] = round($tmp_data['visits'][$date] * $tmp_data['conversion_rate'][$date] / 100);
+-                $tmp_data['total_paid_tax_excl'][$date] = $tmp_data['orders'][$date] * $tmp_data['average_cart_value'][$date];
+-                $tmp_data['total_purchases'][$date] = $tmp_data['total_paid_tax_excl'][$date] * rand(50, 70) / 100;
+-                $tmp_data['total_expenses'][$date] = $tmp_data['total_paid_tax_excl'][$date] * rand(0, 10) / 100;
+-            }
+-        } else {
++        {
+             $tmp_data['visits'] = AdminStatsController::getVisits(false, $date_from, $date_to, 'day');
+             $tmp_data['orders'] = AdminStatsController::getOrders($date_from, $date_to, 'day');
+             $tmp_data['total_paid_tax_excl'] = AdminStatsController::getTotalSales($date_from, $date_to, 'day');

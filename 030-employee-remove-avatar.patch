@@ -1,118 +1,16 @@
-diff --git a/admin/themes/default/template/controllers/customer_threads/helpers/view/message.tpl b/admin/themes/default/template/controllers/customer_threads/helpers/view/message.tpl
-index ec58168..4629373 100644
---- a/admin/themes/default/template/controllers/customer_threads/helpers/view/message.tpl
-+++ b/admin/themes/default/template/controllers/customer_threads/helpers/view/message.tpl
-@@ -35,8 +35,6 @@
- 		<div class="avatar-md">
- 			{if $type == 'customer'}
- 				<i class="icon-user icon-3x"></i>
--			{else}
--				{if isset($current_employee->firstname)}<img src="{$message.employee_image}" alt="{$current_employee->firstname|escape:'html':'UTF-8'}" />{/if}
- 			{/if}
- 		</div>
- 	</div>
-diff --git a/admin/themes/default/template/controllers/customer_threads/helpers/view/view.tpl b/admin/themes/default/template/controllers/customer_threads/helpers/view/view.tpl
-index 75d35de..40082c3 100644
---- a/admin/themes/default/template/controllers/customer_threads/helpers/view/view.tpl
-+++ b/admin/themes/default/template/controllers/customer_threads/helpers/view/view.tpl
-@@ -102,7 +102,7 @@
- 	<div class="row">
- 		<div class="media">
- 			<div class="pull-left">
--				<span class="avatar-md">{if isset($current_employee->firstname)}<img src="{$current_employee->getImage()}" alt="">{/if}</span>
-+				<span class="avatar-md"></span>
- 			</div>
- 			<div class="media-body">
- 				<textarea cols="30" rows="7" name="reply_message">{$PS_CUSTOMER_SERVICE_SIGNATURE|escape:'html':'UTF-8'}</textarea>
-diff --git a/admin/themes/default/template/controllers/logs/employee_field.tpl b/admin/themes/default/template/controllers/logs/employee_field.tpl
-index c30ecf2..e91b8ee 100644
---- a/admin/themes/default/template/controllers/logs/employee_field.tpl
-+++ b/admin/themes/default/template/controllers/logs/employee_field.tpl
-@@ -22,7 +22,4 @@
-  * @license   http://opensource.org/licenses/osl-3.0.php Open Software License (OSL 3.0)
-  * International Registered Trademark & Property of PrestaShop SA
-  *}
--<span class="employee_avatar_small">
--	<img class="imgm img-thumbnail" alt="" src="{$employee_image}" width="32" height="32" />
--</span>
--{$employee_name}
-\ No newline at end of file
-+{$employee_name}
-diff --git a/admin/themes/new-theme/template/components/layout/employee_dropdown.tpl b/admin/themes/new-theme/template/components/layout/employee_dropdown.tpl
-index c2bbd3e..6db4e16 100644
---- a/admin/themes/new-theme/template/components/layout/employee_dropdown.tpl
-+++ b/admin/themes/new-theme/template/components/layout/employee_dropdown.tpl
-@@ -30,7 +30,6 @@
-   {/if}
-   <div class="dropdown-menu dropdown-menu-right p-a-1 m-r-2">
-     <div class="text-xs-center">
--      <img class="avatar img-circle" src="{$employee->getImage()}" /><br>
-       {$employee->firstname} {$employee->lastname}
-     </div>
-     <hr>
 diff --git a/classes/Employee.php b/classes/Employee.php
-index 811426b..941312a 100644
+index 71fcf965..4f14cd46 100644
 --- a/classes/Employee.php
 +++ b/classes/Employee.php
-@@ -595,20 +595,6 @@ class EmployeeCore extends ObjectModel
+@@ -608,11 +608,7 @@ class EmployeeCore extends ObjectModel
+      */
+     public function getImage()
+     {
+-        if (!Validate::isLoadedObject($this)) {
+             return Tools::getAdminImageUrl('prestashop-avatar.png');
+-        }
+-
+-        return Tools::getShopProtocol() . 'profile.prestashop.com/' . urlencode($this->email) . '.jpg';
      }
  
      /**
--     * Get Employee image
--     *
--     * @return string Image URL
--     */
--    public function getImage()
--    {
--        if (!Validate::isLoadedObject($this)) {
--            return Tools::getAdminImageUrl('prestashop-avatar.png');
--        }
--
--        return Tools::getShopProtocol().'profile.prestashop.com/'.urlencode($this->email).'.jpg';
--    }
--
--    /**
-      * Get last elements for notify
-      *
-      * @param $element
-diff --git a/controllers/admin/AdminCustomerThreadsController.php b/controllers/admin/AdminCustomerThreadsController.php
-index ff14f71..9b214bd 100644
---- a/controllers/admin/AdminCustomerThreadsController.php
-+++ b/controllers/admin/AdminCustomerThreadsController.php
-@@ -604,7 +604,6 @@ class AdminCustomerThreadsControllerCore extends AdminController
-         foreach ($messages as $key => $mess) {
-             if ($mess['id_employee']) {
-                 $employee = new Employee($mess['id_employee']);
--                $messages[$key]['employee_image'] = $employee->getImage();
-             }
-             if (isset($mess['file_name']) && $mess['file_name'] != '') {
-                 $messages[$key]['file_name'] = _THEME_PROD_PIC_DIR_.$mess['file_name'];
-diff --git a/controllers/admin/AdminEmployeesController.php b/controllers/admin/AdminEmployeesController.php
-index 2117af1..c751641 100644
---- a/controllers/admin/AdminEmployeesController.php
-+++ b/controllers/admin/AdminEmployeesController.php
-@@ -247,12 +247,6 @@ class AdminEmployeesControllerCore extends AdminController
-                     'required' => true
-                 ),
-                 array(
--                    'type' => 'html',
--                    'name' => 'employee_avatar',
--                    'html_content' => '<div id="employee-thumbnail"><a href="http://www.prestashop.com/forums/index.php?app=core&amp;module=usercp" target="_blank" style="background-image:url('.$obj->getImage().')"></a></div>
--					<div class="alert alert-info">'.sprintf($this->l('Your avatar in PrestaShop 1.6.x is your profile picture on %1$s. To change your avatar, log in to PrestaShop.com with your email %2$s and follow the on-screen instructions.'), '<a href="http://www.prestashop.com/forums/index.php?app=core&amp;module=usercp" class="alert-link" target="_blank">PrestaShop.com</a>', $obj->email).'</div>',
--                ),
--                array(
-                     'type' => 'text',
-                     'class'=> 'fixed-width-xxl',
-                     'prefix' => '<i class="icon-envelope-o"></i>',
-diff --git a/controllers/admin/AdminLogsController.php b/controllers/admin/AdminLogsController.php
-index f205934..e334ead 100644
---- a/controllers/admin/AdminLogsController.php
-+++ b/controllers/admin/AdminLogsController.php
-@@ -125,7 +125,6 @@ class AdminLogsControllerCore extends AdminController
-         $template = $this->context->smarty->createTemplate('controllers/logs/employee_field.tpl', $this->context->smarty);
-         $employee = new Employee((int)$tr['id_employee']);
-         $template->assign(array(
--            'employee_image' => $employee->getImage(),
-             'employee_name' => $value
-         ));
-         return $template->fetch();

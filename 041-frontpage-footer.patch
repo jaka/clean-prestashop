@@ -1,0 +1,21 @@
+diff --git a/themes/classic/templates/_partials/footer.tpl b/themes/classic/templates/_partials/footer.tpl
+index 7508b286..7d30b84c 100644
+--- a/themes/classic/templates/_partials/footer.tpl
++++ b/themes/classic/templates/_partials/footer.tpl
+@@ -41,16 +41,5 @@
+         {hook h='displayFooterAfter'}
+       {/block}
+     </div>
+-    <div class="row">
+-      <div class="col-md-12">
+-        <p class="text-sm-center">
+-          {block name='copyright_link'}
+-            <a class="_blank" href="https://www.prestashop.com" target="_blank" rel="nofollow">
+-              {l s='%copyright% %year% - Ecommerce software by %prestashop%' sprintf=['%prestashop%' => 'PrestaShop™', '%year%' => 'Y'|date, '%copyright%' => '©'] d='Shop.Theme.Global'}
+-            </a>
+-          {/block}
+-        </p>
+-      </div>
+-    </div>
+   </div>
+ </div>

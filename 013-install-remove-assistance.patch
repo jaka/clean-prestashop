@@ -1,5 +1,5 @@
 diff --git a/install/theme/views/header.php b/install/theme/views/header.php
-index 91216e3..52391ae 100644
+index 9252b6d5..c2a8da6d 100644
 --- a/install/theme/views/header.php
 +++ b/install/theme/views/header.php
 @@ -18,7 +18,6 @@

@@ -1,8 +1,8 @@
 diff --git a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
-index 5e13418..e7c9c73 100644
+index 894d3fe4..bfcd4fb3 100644
 --- a/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
 +++ b/admin/themes/default/template/controllers/dashboard/helpers/view/view.tpl
-@@ -87,46 +87,8 @@
+@@ -87,34 +87,8 @@
  		<div class="col-md-4 col-lg-3" id="hookDashboardZoneOne">
  			{$hookDashboardZoneOne}
  		</div>
@@ -10,152 +10,39 @@ index 5e13418..e7c9c73 100644
 +		<div class="col-md-8 col-lg-9" id="hookDashboardZoneTwo">
  			{$hookDashboardZoneTwo}
 -			<div id="dashaddons" class="row-margin-bottom">
--				<a href="http://addons.prestashop.com/en/209-dashboards?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">
--					<i class="icon-plus"></i> {l s='Add more dashboard modules'}
+-				<a href="https://addons.prestashop.com/en/209-dashboards?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">
+-					<i class="icon-plus"></i> {l s='Add more dashboard modules' d='Admin.Dashboard.Feature'}
 -				</a>
 -			</div>
 -		</div>
 -		<div class="col-md-12 col-lg-2">
 -			<section class="dash_news panel">
--				<h3><i class="icon-rss"></i> {l s='PrestaShop News'}</h3>
+-				<h3><i class="icon-rss"></i> {l s='PrestaShop News' d='Admin.Dashboard.Feature'}</h3>
 -				<div class="dash_news_content"></div>
--				<div class="text-center"><h4><a href="http://www.prestashop.com/blog/" onclick="return !window.open(this.href);">{l s='Find more news'}</a></h4></div>
+-				<div class="text-center"><h4><a href="http://www.prestashop.com/blog/" onclick="return !window.open(this.href);">{l s='Find more news' d='Admin.Dashboard.Feature'}</a></h4></div>
 -			</section>
 -			<section id="dash_version" class="visible-lg">
 -				<iframe style="overflow:hidden;border:none" src="{$new_version_url|escape:'html':'UTF-8'}" ></iframe>
 -			</section>
 -			<section class="dash_links panel">
--				<h3><i class="icon-link"></i> {l s="Useful links"}</h3>
+-				<h3><i class="icon-link"></i> {l s="We stay by your side!" d='Admin.Dashboard.Feature'}</h3>
 -					<dl>
--						<dt><a href="http://doc.prestashop.com/display/PS16?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">{l s="Official Documentation"}</a></dt>
--						<dd>{l s="User, Developer and Designer Guides"}</dd>
+-						<dt><a href="{$help_center_link}" class="_blank">{l s="Help Center" d='Admin.Global'}</a></dt>
+-						<dd>{l s="Documentation, support, experts, training... PrestaShop and all of its community are here to guide you" d='Admin.Dashboard.Feature'}</dd>
 -					</dl>
 -					<dl>
--						<dt><a href="http://www.prestashop.com/forums?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">{l s="PrestaShop Forum"}</a></dt>
--						<dd>{l s="Connect with the PrestaShop community"}</dd>
--					</dl>
--					<dl>
--						<dt><a href="http://addons.prestashop.com?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">{l s="PrestaShop Addons"}</a></dt>
--						<dd>{l s="Enhance your store with templates & modules"}</dd>
--					</dl>
--					<dl>
--						<dt><a href="http://forge.prestashop.com?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">{l s="The Forge"}</a></dt>
--						<dd>{l s="Report issues in the Bug Tracker"}</dd>
--					</dl>
--					<dl>
--						<dt><a href="http://www.prestashop.com/en/contact-us?utm_source=back-office&amp;utm_medium=dashboard&amp;utm_campaign=back-office-{$lang_iso|upper}&amp;utm_content={if $host_mode}cloud{else}download{/if}" class="_blank">{l s="Contact Us!"}</a></dt>
--						<dd></dd>
+-						<dt><a href="https://addons.prestashop.com?utm_source=back-office&amp;utm_medium=links&amp;utm_campaign=addons-{$lang_iso}&amp;utm_content=download17" class="_blank">{l s="PrestaShop Marketplace" d='Admin.Dashboard.Feature'}</a></dt>
+-						<dd>{l s="Traffic, conversion rate, customer loyalty... Increase your sales with all of the PrestaShop modules and themes" d='Admin.Dashboard.Feature'}</dd>
 -					</dl>
 -			</section>
  		</div>
  	</div>
  </div>
-diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index 32bf73c..e89e2f8 100644
---- a/controllers/admin/AdminDashboardController.php
-+++ b/controllers/admin/AdminDashboardController.php
-@@ -437,67 +437,6 @@ class AdminDashboardControllerCore extends AdminController
-         die('k'.Configuration::get('PS_DASHBOARD_SIMULATION').'k');
-     }
- 
--    public function ajaxProcessGetBlogRss()
--    {
--        $return = array('has_errors' => false, 'rss' => array());
--        if (!$this->isFresh('/config/xml/blog-'.$this->context->language->iso_code.'.xml', 86400)) {
--            if (!$this->refresh('/config/xml/blog-'.$this->context->language->iso_code.'.xml', _PS_API_URL_.'/rss/blog/blog-'.$this->context->language->iso_code.'.xml')) {
--                $return['has_errors'] = true;
--            }
--        }
--
--        if (!$return['has_errors']) {
--            $rss = @simplexml_load_file(_PS_ROOT_DIR_.'/config/xml/blog-'.$this->context->language->iso_code.'.xml');
--            if (!$rss) {
--                $return['has_errors'] = true;
--            }
--            $articles_limit = 2;
--            if ($rss) {
--                foreach ($rss->channel->item as $item) {
--                    if ($articles_limit > 0 && Validate::isCleanHtml((string)$item->title) && Validate::isCleanHtml((string)$item->description)
--                        && isset($item->link) && isset($item->title)) {
--                        if (in_array($this->context->mode, array(Context::MODE_HOST, Context::MODE_HOST_CONTRIB))) {
--                            $utm_content = 'cloud';
--                        } else {
--                            $utm_content = 'download';
--                        }
--
--                        $shop_default_country_id = (int)Configuration::get('PS_COUNTRY_DEFAULT');
--                        $shop_default_iso_country = (string)Tools::strtoupper(Country::getIsoById($shop_default_country_id));
--                        $analytics_params = array('utm_source' => 'back-office',
--                                                'utm_medium' => 'rss',
--                                                'utm_campaign' => 'back-office-'.$shop_default_iso_country,
--                                                'utm_content' => $utm_content
--
--                                            );
--                        $url_query = parse_url($item->link, PHP_URL_QUERY);
--                        parse_str($url_query, $link_query_params);
--
--                        if ($link_query_params) {
--                            $full_url_params = array_merge($link_query_params, $analytics_params);
--                            $base_url = explode('?', (string)$item->link);
--                            $base_url = (string)$base_url[0];
--                            $article_link = $base_url.'?'.http_build_query($full_url_params);
--                        } else {
--                            $article_link = (string)$item->link.'?'.http_build_query($analytics_params);
--                        }
--
--                        $return['rss'][] = array(
--                            'date' => Tools::displayDate(date('Y-m-d', strtotime((string)$item->pubDate))),
--                            'title' => (string)Tools::htmlentitiesUTF8($item->title),
--                            'short_desc' => Tools::truncateString(strip_tags((string)$item->description), 150),
--                            'link' => (string)$article_link,
--                        );
--                    } else {
--                        break;
--                    }
--                    $articles_limit --;
--                }
--            }
--        }
--        die(json_encode($return));
--    }
--
-     public function ajaxProcessSaveDashConfig()
-     {
-         $return = array('has_errors' => false, 'errors' => array());
 diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index 0ca0e6d..ff0de5f 100644
+index 9c808f45..13296145 100644
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -190,28 +190,6 @@ function data_list_small(widget_name, data) {
- 	}
- }
- 
--function getBlogRss() {
--	$.ajax({
--		url : dashboard_ajax_url,
--		data : {
--			ajax:true,
--			action:'getBlogRss'
--		},
--		dataType: 'json',
--		success : function(jsonData) {
--			if (typeof jsonData !== 'undefined' && jsonData !== null && !jsonData.has_errors) {
--				for (var article in jsonData.rss) {
--					var article_html = '<article><h4><a href="'+jsonData.rss[article].link+'" class="_blank" onclick="return !window.open(this.href);">'+jsonData.rss[article].title+'</a></h4><span class="dash-news-date text-muted">'+jsonData.rss[article].date+'</span><p>'+jsonData.rss[article].short_desc+' <a href="'+jsonData.rss[article].link+'">'+read_more+'</a><p></article><hr/>';
--					$('.dash_news .dash_news_content').append(article_html);
--				}
--			}
--			else {
--				$('.dash_news').hide();
--			}
--		}
--	});
--}
--
- function toggleDashConfig(widget) {
- 	var func_name = widget + '_toggleDashConfig';
- 	if ($('#'+widget+' section.dash_config').hasClass('hide'))
-@@ -300,7 +278,6 @@ $(document).ready( function () {
+@@ -300,7 +300,6 @@ $(document).ready( function () {
  	});
  
  	refreshDashboard(false, false);
