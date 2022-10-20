@@ -11,7 +11,7 @@
  
 -<ul id="footer">
 -	<li><a href="<?php echo $this->getForumLink() ?>" title="<?php echo $this->translator->trans('Official forum', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Official forum', array(), 'Install'); ?></a> | </li>
--	<li><a href="http://www.prestashop.com" title="PrestaShop.com" target="_blank">PrestaShop.com</a> | </li>
+-	<li><a href="https://www.prestashop.com" title="PrestaShop.com" target="_blank">PrestaShop.com</a> | </li>
 -	<li><a href="<?php echo $this->getSupportLink() ?>" title="<?php echo $this->translator->trans('Support', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a> | </li>
 -	<li><a href="<?php echo $this->getDocumentationLink() ?>" title="<?php echo $this->translator->trans('Documentation', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a> | </li>
 -	<li><a href="https://www.prestashop.com/<?php echo $this->language->getLanguageIso() ?>/contact-us" title="<?php echo $this->translator->trans('Contact us', array(), 'Install'); ?>" target="_blank"><?php echo $this->translator->trans('Contact us', array(), 'Install'); ?></a> | </li>
@@ -20,35 +20,19 @@
  <script type="text/javascript">
  	if (typeof psuser_assistance != 'undefined')
  	{
-diff --git a/install/theme/views/process.php b/install/theme/views/process.php
-index 79ece51c..94a56f57 100644
 --- a/install/theme/views/process.php
 +++ b/install/theme/views/process.php
-@@ -105,24 +105,6 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
- 		</div>
+@@ -106,10 +106,4 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
  	</div>
- 
--	<div class="sharing">
--		<p><?php echo $this->translator->trans('Share your experience with your friends!', array(), 'Install'); ?></p>
--		<button type="button" class="btn-twitter" onclick="psinstall_twitter_click('<?php echo $this->translator->trans('I just built an online store with PrestaShop!', array(), 'Install'); ?> <?php echo $this->translator->trans('Watch this exhilarating experience: http://vimeo.com/89298199', array(), 'Install'); ?>');">
--			<i></i> <?php echo $this->translator->trans('Tweet', array(), 'Install'); ?>
--		</button>
--		<button type="button" class="btn-facebook" onclick="psinstall_facebook_click();">
--			<i></i> <?php echo $this->translator->trans('Share', array(), 'Install'); ?>
--		</button>
--		<button type="button" class="btn-google-plus" onclick="psinstall_google_click();">
--			<i></i> <?php echo $this->translator->trans('Google+', array(), 'Install'); ?>
--		</button>
--		<button type="button" class="btn-pinterest" onclick="psinstall_pinterest_click();">
--			<i></i> <?php echo $this->translator->trans('Pinterest', array(), 'Install'); ?>
--		</button>
--		<button type="button" class="btn-linkedin" onclick="psinstall_linkedin_click();">
--			<i></i> <?php echo $this->translator->trans('LinkedIn', array(), 'Install'); ?>
--		</button>
--	</div>
  </div>
  
- <?php if (@fsockopen('addons.prestashop.com', 80, $errno, $errst, 3)): ?>
+-<?php if (@fsockopen('addons.prestashop.com', 80, $errno, $errst, 3)): ?>
+-	<iframe src="https://addons.prestashop.com/psinstall1541.php?version=2&lang=<?php echo $this->language->getLanguageIso() ?>&activity=<?php echo $this->session->shop_activity ?>&country=<?php echo $this->session->shop_country ?>" scrolling="no" id="prestastore">
+-		<p><a href="https://addons.prestashop.com/" target="_blank"><?php echo $this->translator->trans('Check out PrestaShop Addons to add that little something extra to your store!', array(), 'Install'); ?></a></p>
+-	</iframe>
+-<?php endif; ?>
+-
+ <?php $this->displayTemplate('footer') ?>
 --- a/install/theme/views/header.php
 +++ b/install/theme/views/header.php
 @@ -34,20 +34,6 @@

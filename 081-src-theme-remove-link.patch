@@ -1,14 +1,12 @@
-diff --git a/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php b/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
-index 0b94c8b9..96ac42ad 100644
 --- a/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
 +++ b/src/PrestaShopBundle/Controller/Admin/Improve/Design/ThemeController.php
-@@ -85,24 +85,12 @@ class ThemeController extends AbstractAdminController
-         $isHostMode = $this->get('prestashop.adapter.hosting_information')->isHostMode();
-         $isoCode = strtoupper($this->get('prestashop.adapter.legacy.context')->getLanguage()->iso_code);
+@@ -87,24 +87,12 @@ class ThemeController extends AbstractAdminController
+         $languagesAddons = ['de', 'en', 'es', 'fr', 'it', 'nl', 'pl', 'pt', 'ru'];
+         $languageAddons = in_array(strtolower($isoCode), $languagesAddons) ? strtolower($isoCode) : 'en';
  
 -        $themeCatalogUrl = sprintf(
 -            '%s?%s',
--            'https://addons.prestashop.com/en/3-templates-prestashop',
+-            'https://addons.prestashop.com/' . $languageAddons . '/3-templates-prestashop',
 -            http_build_query([
 -                'utm_source' => 'back-office',
 -                'utm_medium' => 'theme-button',
@@ -27,8 +25,6 @@ index 0b94c8b9..96ac42ad 100644
              'baseShopUrl' => $this->get('prestashop.adapter.shop.url.base_url_provider')->getUrl(),
              'shopLogosForm' => $this->getLogosUploadForm()->createView(),
              'headerLogoPath' => $logoProvider->getHeaderLogoPath(),
-diff --git a/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig b/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
-index 736cc88f..eb1f5837 100644
 --- a/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
 +++ b/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
 @@ -146,12 +146,6 @@
