@@ -1,5 +1,3 @@
-diff --git a/install/controllers/http/process.php b/install/controllers/http/process.php
-index 14846b95..0812efd2 100755
 --- a/install/controllers/http/process.php
 +++ b/install/controllers/http/process.php
 @@ -102,12 +102,8 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
@@ -16,37 +14,21 @@ index 14846b95..0812efd2 100755
              }
          } catch (\Exception $e) {
              $this->ajaxJsonAnswer(false, $e->getMessage());
-@@ -328,7 +324,9 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
-         }
-         $this->process_steps[] = $install_modules;
+@@ -305,10 +301,13 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+         $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->translator->trans('Configure shop information', array(), 'Install'));
  
+         $this->process_steps[] = array('key' => 'installModules', 'lang' => $this->translator->trans('Install modules', array(), 'Install'));
 +/*
-         $install_modules = array('key' => 'installModulesAddons', 'lang' => $this->translator->trans('Install Addons modules', array(), 'Install'));
+         $this->process_steps[] = array('key' => 'installModulesAddons', 'lang' => $this->translator->trans('Install Addons modules', array(), 'Install'));
 +*/
  
-         $params = array(
-             'iso_lang' => $this->language->getLanguageIso(),
-@@ -338,6 +336,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
-             'version' => _PS_INSTALL_VERSION_,
-         );
- 
-+/*
-         if ($lowMemory) {
-             foreach ($this->model_install->getAddonsModulesList($params) as $module) {
-                 $install_modules['subtasks'][] = array('module' => (string)$module['name'], 'id_module' => (string)$module['id_module']);
-@@ -345,9 +344,10 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
-         }
- 
-         $this->process_steps[] = $install_modules;
--
-+*/
          $this->process_steps[] = array('key' => 'installTheme', 'lang' => $this->translator->trans('Install theme', array(), 'Install'));
  
 +/*
          if ($this->session->install_type == 'full') {
              $fixtures_step = array('key' => 'installFixtures', 'lang' => $this->translator->trans('Install demonstration data', array(), 'Install'));
-             if ($lowMemory || $this->hasLargeFixtures()) {
-@@ -362,6 +362,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+             if ($this->hasLargeFixtures()) {
+@@ -323,6 +322,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
              }
              $this->process_steps[] = $fixtures_step;
          }

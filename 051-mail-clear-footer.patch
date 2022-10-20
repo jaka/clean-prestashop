@@ -1,5 +1,3 @@
-diff --git a/mails/themes/classic/components/footer.html.twig b/mails/themes/classic/components/footer.html.twig
-index c16cc57d..d8caafec 100644
 --- a/mails/themes/classic/components/footer.html.twig
 +++ b/mails/themes/classic/components/footer.html.twig
 @@ -1,8 +1,3 @@
@@ -8,21 +6,18 @@ index c16cc57d..d8caafec 100644
  </tr>
 -<tr>
 -  <td class="footer" style="border-top: 4px solid #333333">
--    <span>{{ '<a href="{shop_url}">{shop_name}</a> powered by <a href="{prestashop_url}">PrestaShop™</a>'|trans({'{prestashop_url}': 'https://www.prestashop.com/?utm_source=marchandprestashop&utm_medium=e-mail=utm_campaign=footer_1-7'}, 'Emails.Body', locale)|raw }}</span>
+-    <span>{{ '<a href="{shop_url}">{shop_name}</a> powered by <a href="{prestashop_url}">PrestaShop™</a>'|trans({'{prestashop_url}': 'https://www.prestashop.com/?utm_source=marchandprestashop&utm_medium=e-mail&utm_campaign=footer_1-7'}, 'Emails.Body', locale)|raw }}</span>
 -  </td>
 -</tr>
-diff --git a/mails/themes/modern/components/footer.html.twig b/mails/themes/modern/components/footer.html.twig
-index 022cf082..2659979e 100644
 --- a/mails/themes/modern/components/footer.html.twig
 +++ b/mails/themes/modern/components/footer.html.twig
-@@ -37,12 +37,6 @@
-                                 </div>
+@@ -35,11 +35,6 @@
+                                 <div style="font-family:Open sans, arial, sans-serif;font-size:14px;line-height:25px;text-align:center;color:#363A41;"><a href="{shop_url}" style="color:#656565;font-size:16px;font-weight:600;">{shop_name}</a></div>
                                </td>
                              </tr>
 -                            <tr>
 -                              <td align="center" style="font-size:0px;padding:10px 25px;padding-top:0;word-break:break-word;">
--                                <div style="font-family:Open sans, arial, sans-serif;font-size:12px;line-height:25px;text-align:center;color:#656565;"> Powered by <a href="https://www.prestashop.com/?utm_source=marchandprestashop&amp;utm_medium=e-mail=utm_campaign=footer_1-7" style="color:#656565;font-weight:400;">PrestaShop</a>
--                                </div>
+-                                <div style="font-family:Open sans, arial, sans-serif;font-size:12px;line-height:25px;text-align:center;color:#656565;">Powered by <a href="https://www.prestashop.com/?utm_source=marchandprestashop&utm_medium=e-mail&utm_campaign=footer_1-7" style="color:#656565;font-weight:400;">PrestaShop</a></div>
 -                              </td>
 -                            </tr>
                            </table>

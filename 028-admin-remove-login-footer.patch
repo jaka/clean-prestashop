@@ -1,8 +1,6 @@
-diff --git a/admin/themes/default/template/controllers/login/content.tpl b/admin/themes/default/template/controllers/login/content.tpl
-index 82ff54c0..c549976d 100755
 --- a/admin/themes/default/template/controllers/login/content.tpl
 +++ b/admin/themes/default/template/controllers/login/content.tpl
-@@ -165,25 +165,4 @@
+@@ -165,22 +165,4 @@
  		{/if}
  	</div>
  	{hook h="displayAdminLogin"}
@@ -21,9 +19,6 @@ index 82ff54c0..c549976d 100755
 -			</a>
 -			<a class="link-social link-github _blank" href="https://www.prestashop.com/github" title="Github">
 -				<i class="icon-github"></i>
--			</a>
--			<a class="link-social link-google _blank" href="https://plus.google.com/+prestashop/" title="Google">
--				<i class="icon-google-plus"></i>
 -			</a>
 -		</p>
 -	</div>

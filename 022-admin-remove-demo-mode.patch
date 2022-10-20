@@ -1,16 +1,14 @@
-diff --git a/controllers/admin/AdminDashboardController.php b/controllers/admin/AdminDashboardController.php
-index b71475f2..afa9d7e1 100644
 --- a/controllers/admin/AdminDashboardController.php
 +++ b/controllers/admin/AdminDashboardController.php
 @@ -55,11 +55,6 @@ class AdminDashboardControllerCore extends AdminController
      public function initPageHeaderToolbar()
      {
-         $this->page_header_toolbar_title = $this->trans('Dashboard', array(), 'Admin.Dashboard.Feature');
--        $this->page_header_toolbar_btn['switch_demo'] = array(
--            'desc' => $this->trans('Demo mode', array(), 'Admin.Dashboard.Feature'),
+         $this->page_header_toolbar_title = $this->trans('Dashboard', [], 'Admin.Dashboard.Feature');
+-        $this->page_header_toolbar_btn['switch_demo'] = [
+-            'desc' => $this->trans('Demo mode', [], 'Admin.Dashboard.Feature'),
 -            'icon' => 'process-icon-toggle-' . (Configuration::get('PS_DASHBOARD_SIMULATION') ? 'on' : 'off'),
--            'help' => $this->trans('This mode displays sample data so you can try your dashboard without real numbers.', array(), 'Admin.Dashboard.Help'),
--        );
+-            'help' => $this->trans('This mode displays sample data so you can try your dashboard without real numbers.', [], 'Admin.Dashboard.Help'),
+-        ];
  
          parent::initPageHeaderToolbar();
  
@@ -24,18 +22,15 @@ index b71475f2..afa9d7e1 100644
 -        die('k' . Configuration::get('PS_DASHBOARD_SIMULATION') . 'k');
 -    }
 -
-     public function ajaxProcessGetBlogRss()
-     {
-         $return = array('has_errors' => false, 'rss' => array());
-diff --git a/js/admin/dashboard.js b/js/admin/dashboard.js
-index 13296145..99834231 100644
+     /**
+      * Returns last news from the blog
+      *
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -302,23 +302,4 @@ $(document).ready( function () {
- 	refreshDashboard(false, false);
+@@ -304,22 +304,4 @@ $(document).ready( function () {
  	bindSubmitDashConfig();
  	bindCancelDashConfig();
--
+ 
 -	$('#page-header-desc-configuration-switch_demo').tooltip().click(function(e) {
 -		$.ajax({
 -			url : dashboard_ajax_url,
@@ -55,8 +50,6 @@ index 13296145..99834231 100644
 -		});
 -	});
  });
-diff --git a/modules/dashactivity/dashactivity.php b/modules/dashactivity/dashactivity.php
-index 1f6fd338..9ab7ecb1 100755
 --- a/modules/dashactivity/dashactivity.php
 +++ b/modules/dashactivity/dashactivity.php
 @@ -115,50 +115,6 @@ class dashactivity extends Module
@@ -265,13 +258,13 @@ diff --git a/modules/dashtrends/dashtrends.php b/modules/dashtrends/dashtrends.p
 index 3eb92ce0..c76b9805 100755
 --- a/modules/dashtrends/dashtrends.php
 +++ b/modules/dashtrends/dashtrends.php
-@@ -89,19 +89,7 @@ class dashtrends extends Module
-             'total_expenses' => array()
-         );
+@@ -99,19 +99,7 @@ class dashtrends extends Module
+             'total_expenses' => [],
+         ];
  
 -        if (Configuration::get('PS_DASHBOARD_SIMULATION')) {
--            $from = strtotime($date_from.' 00:00:00');
--            $to = min(time(), strtotime($date_to.' 23:59:59'));
+-            $from = strtotime($date_from . ' 00:00:00');
+-            $to = min(time(), strtotime($date_to . ' 23:59:59'));
 -            for ($date = $from; $date <= $to; $date = strtotime('+1 day', $date)) {
 -                $tmp_data['visits'][$date] = round(rand(2000, 20000));
 -                $tmp_data['conversion_rate'][$date] = rand(80, 250) / 100;
