@@ -2,7 +2,7 @@ diff --git a/install/theme/views/process.php b/install/theme/views/process.php
 index 31069901..79ece51c 100644
 --- a/install/theme/views/process.php
 +++ b/install/theme/views/process.php
-@@ -125,10 +125,4 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
+@@ -106,10 +106,4 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
  	</div>
  </div>
  

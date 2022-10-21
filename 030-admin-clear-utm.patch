@@ -1,0 +1,63 @@
+--- a/controllers/admin/AdminDashboardController.php
++++ b/controllers/admin/AdminDashboardController.php
+@@ -477,14 +477,14 @@ class AdminDashboardControllerCore extends AdminController
+     private function getHelpCenterLink($languageCode)
+     {
+         $links = [
+-            'fr' => 'https://www.prestashop.com/fr/contact?utm_source=back-office&utm_medium=links&utm_campaign=help-center-fr&utm_content=download17',
+-            'en' => 'https://www.prestashop.com/en/contact?utm_source=back-office&utm_medium=links&utm_campaign=help-center-en&utm_content=download17',
+-            'es' => 'https://www.prestashop.com/es/contacto?utm_source=back-office&utm_medium=links&utm_campaign=help-center-es&utm_content=download17',
+-            'de' => 'https://www.prestashop.com/de/kontakt?utm_source=back-office&utm_medium=links&utm_campaign=help-center-de&utm_content=download17',
+-            'it' => 'https://www.prestashop.com/it/contatti?utm_source=back-office&utm_medium=links&utm_campaign=help-center-it&utm_content=download17',
+-            'nl' => 'https://www.prestashop.com/nl/contacteer-ons?utm_source=back-office&utm_medium=links&utm_campaign=help-center-nl&utm_content=download17',
+-            'pt' => 'https://www.prestashop.com/pt/contato?utm_source=back-office&utm_medium=links&utm_campaign=help-center-pt&utm_content=download17',
+-            'pl' => 'https://www.prestashop.com/pl/kontakt?utm_source=back-office&utm_medium=links&utm_campaign=help-center-pl&utm_content=download17',
++            'fr' => 'https://www.prestashop.com/fr/contact',
++            'en' => 'https://www.prestashop.com/en/contact',
++            'es' => 'https://www.prestashop.com/es/contacto',
++            'de' => 'https://www.prestashop.com/de/kontakt',
++            'it' => 'https://www.prestashop.com/it/contatti',
++            'nl' => 'https://www.prestashop.com/nl/contacteer-ons',
++            'pt' => 'https://www.prestashop.com/pt/contato',
++            'pl' => 'https://www.prestashop.com/pl/kontakt',
+         ];
+ 
+         return isset($links[$languageCode]) ? $links[$languageCode] : $links['en'];
+--- a/classes/controller/AdminController.php
++++ b/classes/controller/AdminController.php
+@@ -2337,20 +2337,16 @@ class AdminControllerCore extends Controller
+                 . 'email=' . urlencode($this->context->employee->email)
+                 . '&firstname=' . urlencode($this->context->employee->firstname)
+                 . '&lastname=' . urlencode($this->context->employee->lastname)
+-                . '&website=' . urlencode($this->context->shop->getBaseURL())
+-                . '&utm_source=back-office&utm_medium=connect-to-addons'
+-                . '&utm_campaign=back-office-' . Tools::strtoupper($this->context->language->iso_code)
+-                . '&utm_content=' . (defined('_PS_HOST_MODE_') ? 'cloud' : 'download') . '#createnow',
++                . '&website=' . urlencode($this->context->shop->getBaseURL()) . Tools::strtoupper($this->context->language->iso_code)
++                . '#createnow',
+             'addons_forgot_password_link' => '//addons.prestashop.com/' . $this->context->language->iso_code . '/forgot-your-password',
+         ]);
+ 
+         $this->modals[] = [
+             'modal_id' => 'modal_addons_connect',
+             'modal_class' => 'modal-md',
+-            'modal_title' => '<i class="icon-puzzle-piece"></i> <a target="_blank" href="https://addons.prestashop.com/'
+-            . '?utm_source=back-office&utm_medium=modules'
+-            . '&utm_campaign=back-office-' . Tools::strtoupper($this->context->language->iso_code)
+-            . '&utm_content=' . (defined('_PS_HOST_MODE_') ? 'cloud' : 'download') . '">PrestaShop Addons</a>',
++            'modal_title' => '<i class="icon-puzzle-piece"></i> <a target="_blank" href="https://addons.prestashop.com/' . Tools::strtoupper($this->context->language->iso_code)
++            . '">PrestaShop Addons</a>',
+             'modal_content' => $this->context->smarty->fetch('controllers/modules/login_addons.tpl'),
+         ];
+     }
+@@ -4378,10 +4373,6 @@ class AdminControllerCore extends Controller
+ 
+         // free modules get their source tracking data here
+         $module->optionsHtml = $this->displayModuleOptions($module, $output_type, $back, $install_source_tracking);
+-        // pay modules get their source tracking data here
+-        if ($install_source_tracking && isset($module->addons_buy_url)) {
+-            $module->addons_buy_url .= ($install_source_tracking ? '&utm_term=' . $install_source_tracking : '');
+-        }
+ 
+         $module->options['uninstall_onclick'] = ((!$module->onclick_option) ?
+             ((empty($module->confirmUninstall)) ? 'return confirm(\'' . $this->trans('Do you really want to uninstall this module?') . '\');' : 'return confirm(\'' . addslashes($module->confirmUninstall) . '\');') :

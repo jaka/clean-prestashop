@@ -1,0 +1,26 @@
+--- a/src/Adapter/News/NewsDataProvider.php
++++ b/src/Adapter/News/NewsDataProvider.php
+@@ -133,11 +133,7 @@ class NewsDataProvider
+ 
+         $shop_default_country_id = (int) $this->configuration->get('PS_COUNTRY_DEFAULT');
+         $shop_default_iso_country = mb_strtoupper($this->countryDataProvider->getIsoCodebyId($shop_default_country_id), 'utf-8');
+-        $analytics_params = [
+-            'utm_source' => 'back-office',
+-            'utm_medium' => 'rss',
+-            'utm_campaign' => 'back-office-' . $shop_default_iso_country,
+-        ];
++        $analytics_params = [];
+ 
+         /** @var stdClass $item */
+         foreach ($rss->channel->item as $item) {
+@@ -150,10 +146,6 @@ class NewsDataProvider
+                 || empty($item->title)) {
+                 continue;
+             }
+-            $analytics_params['utm_content'] = 'download';
+-            if (in_array($this->contextMode, [Context::MODE_HOST, Context::MODE_HOST_CONTRIB])) {
+-                $analytics_params['utm_content'] = 'cloud';
+-            }
+ 
+             $url_query = parse_url($item->link, PHP_URL_QUERY);
+             parse_str($url_query, $link_query_params);

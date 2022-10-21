@@ -20,22 +20,9 @@
  <script type="text/javascript">
  	if (typeof psuser_assistance != 'undefined')
  	{
---- a/install/theme/views/process.php
-+++ b/install/theme/views/process.php
-@@ -106,10 +106,4 @@ var admin = '<?php echo file_exists('../admin-dev') ? '../admin-dev' : '../admin
- 	</div>
- </div>
- 
--<?php if (@fsockopen('addons.prestashop.com', 80, $errno, $errst, 3)): ?>
--	<iframe src="https://addons.prestashop.com/psinstall1541.php?version=2&lang=<?php echo $this->language->getLanguageIso() ?>&activity=<?php echo $this->session->shop_activity ?>&country=<?php echo $this->session->shop_country ?>" scrolling="no" id="prestastore">
--		<p><a href="https://addons.prestashop.com/" target="_blank"><?php echo $this->translator->trans('Check out PrestaShop Addons to add that little something extra to your store!', array(), 'Install'); ?></a></p>
--	</iframe>
--<?php endif; ?>
--
- <?php $this->displayTemplate('footer') ?>
 --- a/install/theme/views/header.php
 +++ b/install/theme/views/header.php
-@@ -34,20 +34,6 @@
+@@ -33,13 +33,6 @@
  
  <!-- Header -->
  <div id="header" class="clearfix">
@@ -44,14 +31,8 @@
 -		<li class="lnk_forum"><a href="<?php echo $this->getSupportLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Support', array(), 'Install'); ?></a></li>
 -		<li class="lnk_forum"><a href="<?php echo $this->getDocumentationLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Documentation', array(), 'Install'); ?></a></li>
 -		<li class="lnk_blog last"><a href="<?php echo $this->getBlogLink() ?>" target="_blank" rel="noopener noreferrer"><?php echo $this->translator->trans('Blog', array(), 'Install') ?></a></li>
--		<!--
--		<?php if ($this->getPhone()): ?>
--			<li id="phone_block" class="last">
--				<div><span><?php echo $this->translator->trans('Contact us!', array(), 'Install') ?></span><br /><?php echo $this->getPhone() ?></div>
--			</li>
--		<?php endif; ?>
--		-->
 -	</ul>
 -
  	<div id="PrestaShopLogo">PrestaShop</div>
  </div>
+ 

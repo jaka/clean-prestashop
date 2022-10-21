@@ -1,15 +1,29 @@
-diff --git a/modules/ps_imageslider/ps_imageslider.php b/modules/ps_imageslider/ps_imageslider.php
-index 6fe8f020..b2c573a2 100644
 --- a/modules/ps_imageslider/ps_imageslider.php
 +++ b/modules/ps_imageslider/ps_imageslider.php
-@@ -138,9 +138,7 @@ class Ps_ImageSlider extends Module implements WidgetInterface
+@@ -147,9 +147,7 @@ class Ps_ImageSlider extends Module implements WidgetInterface
                  $slide->description[$language['id_lang']] = '<h3>EXCEPTEUR OCCAECAT</h3>
                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tristique in tortor et dignissim. Quisque non tempor leo. Maecenas egestas sem elit</p>';
-                 $slide->legend[$language['id_lang']] = 'sample-'.$i;
+                 $slide->legend[$language['id_lang']] = 'sample-' . $i;
 -                $slide->url[$language['id_lang']] = 'http://www.prestashop.com/?utm_source=back-office&utm_medium=v17_homeslider'
--                    .'&utm_campaign=back-office-'.Tools::strtoupper($this->context->language->iso_code)
--                    .'&utm_content='.(defined('_PS_HOST_MODE_') ? 'ondemand' : 'download');
+-                    . '&utm_campaign=back-office-' . Tools::strtoupper($this->context->language->iso_code)
+-                    . '&utm_content=' . (defined('_PS_HOST_MODE_') ? 'ondemand' : 'download');
 +                $slide->url[$language['id_lang']] = 'http://localhost/';
-                 $slide->image[$language['id_lang']] = 'sample-'.$i.'.jpg';
+                 $slide->image[$language['id_lang']] = 'sample-' . $i . '.jpg';
              }
              $slide->add();
+--- a/modules/contactform/contactform.php
++++ b/modules/contactform/contactform.php
+@@ -132,11 +132,9 @@ class Contactform extends Module implements WidgetInterface
+         return sprintf(
+             '<a href="%1$s">%2$s</a>',
+             sprintf(
+-                'https://addons.prestashop.com/%s/429-%s?utm_source=back-office&' .
+-                'utm_medium=native-contactform&utm_campaign=back-office-%s&utm_content=security',
++                'https://addons.prestashop.com/%s/429-%s',
+                 Tools::strtolower($languageCode),
+-                $codes[$languageCode],
+-                $languageCode
++                $codes[$languageCode]
+             ),
+             $this->trans('PrestaShop Addons Marketplace', [], 'Admin.Modules.Feature')
+         );

@@ -12,7 +12,7 @@
  
          parent::initPageHeaderToolbar();
  
-@@ -440,12 +435,6 @@ class AdminDashboardControllerCore extends AdminController
+@@ -429,12 +424,6 @@ class AdminDashboardControllerCore extends AdminController
          die(json_encode(Hook::exec('dashboardData', $params, $id_module, true, true, (int) Tools::getValue('dashboard_use_push'))));
      }
  
@@ -27,7 +27,7 @@
       *
 --- a/js/admin/dashboard.js
 +++ b/js/admin/dashboard.js
-@@ -304,22 +304,4 @@ $(document).ready( function () {
+@@ -303,22 +303,4 @@ $(document).ready( function () {
  	bindSubmitDashConfig();
  	bindCancelDashConfig();
  

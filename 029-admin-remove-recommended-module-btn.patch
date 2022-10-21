@@ -1,6 +1,6 @@
 --- a/classes/controller/AdminController.php
 +++ b/classes/controller/AdminController.php
-@@ -1625,9 +1625,10 @@ class AdminControllerCore extends Controller
+@@ -1658,9 +1658,10 @@ class AdminControllerCore extends Controller
          if (empty($this->page_header_toolbar_title)) {
              $this->page_header_toolbar_title = $this->toolbar_title[count($this->toolbar_title) - 1];
          }

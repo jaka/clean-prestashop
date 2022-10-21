@@ -1,8 +1,6 @@
-diff --git a/js/admin.js b/js/admin.js
-index 273f8661..49cb1e64 100644
 --- a/js/admin.js
 +++ b/js/admin.js
-@@ -840,7 +840,7 @@ $(document).ready(function()
+@@ -846,7 +846,7 @@ $(document).ready(function()
      var moduleLink = $(this).data('link');
      var authorUri = $(this).data('author-uri');
      var isValidUri = /(https?):\/\/([a-z0-9\.]*)?(prestashop.com).*/gi;

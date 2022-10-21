@@ -1,0 +1,11 @@
+--- a/src/Adapter/Requirement/CheckMissingOrUpdatedFiles.php
++++ b/src/Adapter/Requirement/CheckMissingOrUpdatedFiles.php
+@@ -47,6 +47,8 @@ class CheckMissingOrUpdatedFiles
+             'updated' => [],
+         ];
+ 
++        return $fileList;
++
+         if (null === $dir) {
+             $xml = @simplexml_load_file(_PS_API_URL_ . '/xml/md5-' . AppKernel::MAJOR_VERSION . '/' . AppKernel::VERSION . '.xml');
+             if (!$xml) {

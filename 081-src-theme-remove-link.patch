@@ -27,7 +27,7 @@
              'headerLogoPath' => $logoProvider->getHeaderLogoPath(),
 --- a/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
 +++ b/src/PrestaShopBundle/Resources/views/Admin/Improve/Design/Theme/index.html.twig
-@@ -146,12 +146,6 @@
+@@ -148,12 +148,6 @@
                  {{ 'Explore more than a thousand themes'|trans({}, 'Admin.Design.Feature') }}
                {% endblock %}
  

@@ -1,6 +1,6 @@
 --- a/install/controllers/http/process.php
 +++ b/install/controllers/http/process.php
-@@ -102,12 +102,8 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+@@ -100,12 +100,8 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
                  $this->processConfigureShop();
              } elseif (Tools::getValue('installModules') && (!empty($this->session->process_validated['configureShop']) || $this->session->install_type != 'full')) {
                  $this->processInstallModules();
@@ -14,7 +14,7 @@
              }
          } catch (\Exception $e) {
              $this->ajaxJsonAnswer(false, $e->getMessage());
-@@ -305,10 +301,13 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+@@ -303,10 +299,13 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
          $this->process_steps[] = array('key' => 'configureShop', 'lang' => $this->translator->trans('Configure shop information', array(), 'Install'));
  
          $this->process_steps[] = array('key' => 'installModules', 'lang' => $this->translator->trans('Install modules', array(), 'Install'));
@@ -28,7 +28,7 @@
          if ($this->session->install_type == 'full') {
              $fixtures_step = array('key' => 'installFixtures', 'lang' => $this->translator->trans('Install demonstration data', array(), 'Install'));
              if ($this->hasLargeFixtures()) {
-@@ -323,6 +322,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
+@@ -321,6 +320,7 @@ class InstallControllerHttpProcess extends InstallControllerHttp implements Http
              }
              $this->process_steps[] = $fixtures_step;
          }

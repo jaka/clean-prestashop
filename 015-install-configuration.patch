@@ -1,0 +1,11 @@
+--- a/install/controllers/http/configure.php
++++ b/install/controllers/http/configure.php
+@@ -291,7 +291,7 @@ class InstallControllerHttpConfigure extends InstallControllerHttp implements Ht
+         }
+ 
+         // Install type
+-        $this->install_type = ($this->session->install_type) ? $this->session->install_type : 'full';
++        $this->install_type = ($this->session->install_type) ? $this->session->install_type : 'lite';
+ 
+         $this->displayTemplate('configure');
+     }
